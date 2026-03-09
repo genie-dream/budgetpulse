@@ -16,7 +16,7 @@
 
 ### Onboarding
 
-- [ ] **ONBD-01**: First-run onboarding collects income, fixed expenses, and savings goal, then redirects to dashboard
+- [x] **ONBD-01**: First-run onboarding collects income, fixed expenses, and savings goal, then redirects to dashboard
 
 ### Transactions
 
@@ -96,7 +96,7 @@
 | BUDG-04 | Phase 2 | Complete |
 | BUDG-05 | Phase 2 | Complete |
 | BUDG-06 | Phase 2 | Complete |
-| ONBD-01 | Phase 2 | Pending |
+| ONBD-01 | Phase 2 | Complete |
 | TRAN-01 | Phase 3 | Pending |
 | TRAN-02 | Phase 3 | Pending |
 | TRAN-03 | Phase 3 | Pending |

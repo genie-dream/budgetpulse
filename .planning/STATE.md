@@ -3,16 +3,16 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 current_phase: 2
-current_plan: "03"
+current_plan: "04"
 status: in_progress
-stopped_at: "Completed 02-budget-engine-onboarding/02-02-PLAN.md"
-last_updated: "2026-03-10T00:50:00Z"
+stopped_at: "Completed 02-budget-engine-onboarding/02-03-PLAN.md"
+last_updated: "2026-03-09T15:56:01Z"
 progress:
   total_phases: 5
   completed_phases: 1
   total_plans: 8
-  completed_plans: 6
-  percent: 75
+  completed_plans: 7
+  percent: 88
 ---
 
 # STATE: BudgetPulse
@@ -33,13 +33,13 @@ progress:
 ## Current Position
 
 **Current Phase:** 2
-**Current Plan:** 03 (2/4 complete)
-**Phase Status:** In Progress (2/4 plans)
-**Overall Status:** Phase 2 underway — Plans 01 and 02 (Budget Engine + Store/DB layer) complete
+**Current Plan:** 04 (3/4 complete)
+**Phase Status:** In Progress (3/4 plans)
+**Overall Status:** Phase 2 underway — Plans 01, 02, and 03 (Budget Engine + Store/DB + Onboarding UI) complete
 
 ```
-Progress: [████████░░] 75% complete (6/8 plans done)
-Phase 1 [█████] | Phase 2 [██...] | Phase 3 [.....] | Phase 4 [.....] | Phase 5 [.....]
+Progress: [█████████░] 88% complete (7/8 plans done)
+Phase 1 [█████] | Phase 2 [███.] | Phase 3 [.....] | Phase 4 [.....] | Phase 5 [.....]
 ```
 
 ---
@@ -106,6 +106,14 @@ Phase 1 [█████] | Phase 2 [██...] | Phase 3 [.....] | Phase 4 [...
 - db.budgetConfigs.put() (upsert) confirmed over add() per RESEARCH.md for onboarding wizard re-save scenario
 - currency: 'KRW' default in settingsStore is backward-compatible — Zustand persist shallow-merges so existing stored states without the key receive KRW
 
+### Decisions from Plan 02-03
+
+- onFinishHydration + hasHydrated() check used in onboarding page for stores with skipHydration: true — avoids reading stale isOnboarded before Zustand persist rehydrates
+- Currency picker shown only when detectCurrencyFromLocale() returns USD or JPY — KRW locale silently defaults per CONTEXT.md "Default: KRW (silent)"
+- SwipeToDelete uses horizontal-dominant guard (|deltaX| > |deltaY| AND |deltaX| > 60px) to prevent triggering on vertical scroll gestures
+- router.replace('/') not push() in handleFinish — prevents back-button returning to already-completed onboarding
+- editingId state in StepFixedExpenses — tapping a row pre-fills the shared inline form; Save replaces item in array by ID
+
 ### Critical Implementation Notes
 
 - `monthStartDay` allows payday-based months (e.g. 25th to 24th). Non-trivial edge case requiring dedicated tests.
@@ -130,10 +138,10 @@ None.
 
 ## Session Continuity
 
-**Last session:** 2026-03-10T00:50:00Z
-**Stopped at:** Completed 02-budget-engine-onboarding/02-02-PLAN.md
-**Next action:** Execute Plan 02-03 — Onboarding UI (multi-step wizard with live variable budget preview)
+**Last session:** 2026-03-09T15:56:01.507Z
+**Stopped at:** Completed 02-budget-engine-onboarding/02-03-PLAN.md
+**Next action:** Execute Plan 02-04 — Phase 2 final plan
 
 ---
 
-*State last updated: 2026-03-10T00:50:00Z*
+*State last updated: 2026-03-09T15:56:01Z*
