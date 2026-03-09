@@ -3,16 +3,16 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 current_phase: 2
-current_plan: Not started
-status: unknown
-stopped_at: Phase 2 context gathered
-last_updated: "2026-03-09T15:23:15.493Z"
+current_plan: "02"
+status: in_progress
+stopped_at: "Completed 02-budget-engine-onboarding/02-01-PLAN.md"
+last_updated: "2026-03-10T00:43:00Z"
 progress:
   total_phases: 5
   completed_phases: 1
-  total_plans: 4
-  completed_plans: 4
-  percent: 100
+  total_plans: 8
+  completed_plans: 5
+  percent: 63
 ---
 
 # STATE: BudgetPulse
@@ -33,13 +33,13 @@ progress:
 ## Current Position
 
 **Current Phase:** 2
-**Current Plan:** Not started
-**Phase Status:** Complete (4/4 plans)
-**Overall Status:** Phase 1 Foundation complete — PWA shell, IndexedDB schema, app shell, and PWA manifest all implemented
+**Current Plan:** 02 (1/4 complete)
+**Phase Status:** In Progress (1/4 plans)
+**Overall Status:** Phase 2 underway — Plan 01 (Budget Calculation Engine) complete
 
 ```
-Progress: [██████████] 100% complete (Phase 1: 4/4 plans)
-Phase 1 [█████] | Phase 2 [.....] | Phase 3 [.....] | Phase 4 [.....] | Phase 5 [.....]
+Progress: [██████░░░░] 63% complete (5/8 plans done)
+Phase 1 [█████] | Phase 2 [█....] | Phase 3 [.....] | Phase 4 [.....] | Phase 5 [.....]
 ```
 
 ---
@@ -49,7 +49,7 @@ Phase 1 [█████] | Phase 2 [.....] | Phase 3 [.....] | Phase 4 [.....] 
 | Phase | Goal | Status |
 |-------|------|--------|
 | 1. Foundation | App shell, PWA scaffold, IndexedDB schema, routing | Complete (4/4) |
-| 2. Budget Engine + Onboarding | Budget setup, Survival Budget calculation, onboarding flow | Not started |
+| 2. Budget Engine + Onboarding | Budget setup, Survival Budget calculation, onboarding flow | In Progress (1/4) |
 | 3. Transaction Logging | Fast mobile transaction logging, history, filtering | Not started |
 | 4. Dashboard | Real-time Survival Budget display, pace tracking | Not started |
 | 5. Analytics, Settings & PWA Polish | Charts, data backup/restore, offline support | Not started |
@@ -92,6 +92,13 @@ Phase 1 [█████] | Phase 2 [.....] | Phase 3 [.....] | Phase 4 [.....] 
 - sharp installed as devDependency for reproducible icon generation from SVG source via scripts/generate-icons.mjs
 - ServiceWorkerRegistration client component placed early in layout body to register SW and rehydrate Zustand stores immediately on mount
 
+### Decisions from Plan 02-01
+
+- Intl.NumberFormat ja-JP returns fullwidth yen ￥ (U+FFE5), not halfwidth ¥ (U+00A5) — tests use actual Intl runtime output
+- getRemainingDaysInPeriod with startDay=31 in January yields 29 days (Jan 31 → Feb 28 inclusive), not 1 — plan comment was incorrect; must_have truths (>= 1) are satisfied
+- formatCurrency lives in src/lib/budget.ts; detectCurrencyFromLocale in src/lib/locale.ts — pure calc module pattern established
+- SSR guard in detectCurrencyFromLocale: `if (typeof navigator === 'undefined') return 'KRW'`
+
 ### Critical Implementation Notes
 
 - `monthStartDay` allows payday-based months (e.g. 25th to 24th). Non-trivial edge case requiring dedicated tests.
@@ -116,10 +123,10 @@ None.
 
 ## Session Continuity
 
-**Last session:** 2026-03-09T15:23:15.491Z
-**Stopped at:** Phase 2 context gathered
-**Next action:** Begin Phase 2 planning — Budget Engine + Onboarding (Survival Budget calculation, budget setup flow)
+**Last session:** 2026-03-10T00:43:00Z
+**Stopped at:** Completed 02-budget-engine-onboarding/02-01-PLAN.md
+**Next action:** Execute Plan 02-02 — Onboarding UI (multi-step wizard with live variable budget preview)
 
 ---
 
-*State last updated: 2026-03-10*
+*State last updated: 2026-03-10T00:43:00Z*

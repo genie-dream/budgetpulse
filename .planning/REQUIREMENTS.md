@@ -10,9 +10,9 @@
 - [ ] **BUDG-01**: User can input monthly income
 - [ ] **BUDG-02**: User can add, edit, and remove fixed expenses (name, amount, category)
 - [ ] **BUDG-03**: User can set an optional monthly savings goal
-- [ ] **BUDG-04**: Variable budget auto-calculates: income − fixed expenses − savings goal
-- [ ] **BUDG-05**: User can set month start day (1–31, e.g. payday-based like 25th)
-- [ ] **BUDG-06**: User can set currency (KRW default, USD, JPY)
+- [x] **BUDG-04**: Variable budget auto-calculates: income − fixed expenses − savings goal
+- [x] **BUDG-05**: User can set month start day (1–31, e.g. payday-based like 25th)
+- [x] **BUDG-06**: User can set currency (KRW default, USD, JPY)
 
 ### Onboarding
 
@@ -93,9 +93,9 @@
 | BUDG-01 | Phase 2 | Pending |
 | BUDG-02 | Phase 2 | Pending |
 | BUDG-03 | Phase 2 | Pending |
-| BUDG-04 | Phase 2 | Pending |
-| BUDG-05 | Phase 2 | Pending |
-| BUDG-06 | Phase 2 | Pending |
+| BUDG-04 | Phase 2 | Complete |
+| BUDG-05 | Phase 2 | Complete |
+| BUDG-06 | Phase 2 | Complete |
 | ONBD-01 | Phase 2 | Pending |
 | TRAN-01 | Phase 3 | Pending |
 | TRAN-02 | Phase 3 | Pending |
