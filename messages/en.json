@@ -1,0 +1,60 @@
+{
+  "nav": {
+    "home": "Home",
+    "add": "Add",
+    "history": "History",
+    "analytics": "Analytics",
+    "settings": "Settings"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "back": "Back"
+  },
+  "home": {
+    "title": "BudgetPulse",
+    "noData": "Set up your budget to get started"
+  },
+  "add": {
+    "title": "Add Transaction",
+    "amount": "Amount",
+    "category": "Category",
+    "memo": "Memo (optional)",
+    "date": "Date"
+  },
+  "history": {
+    "title": "History",
+    "empty": "No transactions yet"
+  },
+  "analytics": {
+    "title": "Analytics"
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "theme": "Theme",
+    "darkMode": "Dark mode",
+    "lightMode": "Light mode",
+    "english": "English",
+    "korean": "Korean"
+  },
+  "onboarding": {
+    "title": "Welcome to BudgetPulse",
+    "subtitle": "Let's set up your budget"
+  },
+  "categories": {
+    "food": "Food",
+    "transport": "Transport",
+    "shopping": "Shopping",
+    "entertainment": "Entertainment",
+    "health": "Health",
+    "education": "Education",
+    "housing": "Housing",
+    "communication": "Communication",
+    "other": "Other"
+  }
+}

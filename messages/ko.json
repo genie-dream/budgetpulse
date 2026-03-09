@@ -1,0 +1,60 @@
+{
+  "nav": {
+    "home": "홈",
+    "add": "추가",
+    "history": "내역",
+    "analytics": "분석",
+    "settings": "설정"
+  },
+  "common": {
+    "loading": "로딩 중...",
+    "error": "오류가 발생했습니다",
+    "save": "저장",
+    "cancel": "취소",
+    "delete": "삭제",
+    "edit": "편집",
+    "back": "뒤로"
+  },
+  "home": {
+    "title": "BudgetPulse",
+    "noData": "예산을 설정하여 시작하세요"
+  },
+  "add": {
+    "title": "지출 추가",
+    "amount": "금액",
+    "category": "카테고리",
+    "memo": "메모 (선택)",
+    "date": "날짜"
+  },
+  "history": {
+    "title": "지출 내역",
+    "empty": "아직 지출 내역이 없습니다"
+  },
+  "analytics": {
+    "title": "분석"
+  },
+  "settings": {
+    "title": "설정",
+    "language": "언어",
+    "theme": "테마",
+    "darkMode": "다크 모드",
+    "lightMode": "라이트 모드",
+    "english": "English",
+    "korean": "한국어"
+  },
+  "onboarding": {
+    "title": "BudgetPulse에 오신 것을 환영합니다",
+    "subtitle": "예산을 설정해 보세요"
+  },
+  "categories": {
+    "food": "식비",
+    "transport": "교통",
+    "shopping": "쇼핑",
+    "entertainment": "여가",
+    "health": "의료",
+    "education": "교육",
+    "housing": "주거",
+    "communication": "통신",
+    "other": "기타"
+  }
+}
