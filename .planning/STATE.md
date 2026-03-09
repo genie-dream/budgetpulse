@@ -3,16 +3,16 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 current_phase: 2
-current_plan: "02"
+current_plan: "03"
 status: in_progress
-stopped_at: "Completed 02-budget-engine-onboarding/02-01-PLAN.md"
-last_updated: "2026-03-10T00:43:00Z"
+stopped_at: "Completed 02-budget-engine-onboarding/02-02-PLAN.md"
+last_updated: "2026-03-10T00:50:00Z"
 progress:
   total_phases: 5
   completed_phases: 1
   total_plans: 8
-  completed_plans: 5
-  percent: 63
+  completed_plans: 6
+  percent: 75
 ---
 
 # STATE: BudgetPulse
@@ -33,13 +33,13 @@ progress:
 ## Current Position
 
 **Current Phase:** 2
-**Current Plan:** 02 (1/4 complete)
-**Phase Status:** In Progress (1/4 plans)
-**Overall Status:** Phase 2 underway — Plan 01 (Budget Calculation Engine) complete
+**Current Plan:** 03 (2/4 complete)
+**Phase Status:** In Progress (2/4 plans)
+**Overall Status:** Phase 2 underway — Plans 01 and 02 (Budget Engine + Store/DB layer) complete
 
 ```
-Progress: [██████░░░░] 63% complete (5/8 plans done)
-Phase 1 [█████] | Phase 2 [█....] | Phase 3 [.....] | Phase 4 [.....] | Phase 5 [.....]
+Progress: [████████░░] 75% complete (6/8 plans done)
+Phase 1 [█████] | Phase 2 [██...] | Phase 3 [.....] | Phase 4 [.....] | Phase 5 [.....]
 ```
 
 ---
@@ -99,6 +99,13 @@ Phase 1 [█████] | Phase 2 [█....] | Phase 3 [.....] | Phase 4 [.....
 - formatCurrency lives in src/lib/budget.ts; detectCurrencyFromLocale in src/lib/locale.ts — pure calc module pattern established
 - SSR guard in detectCurrencyFromLocale: `if (typeof navigator === 'undefined') return 'KRW'`
 
+### Decisions from Plan 02-02
+
+- jsdom localStorage mock added to tests/setup.ts — jsdom without a URL throws SecurityError; centralized mock ensures Zustand persist works in all test files without per-file workarounds
+- vitest.config.mts environmentOptions.jsdom.url set to 'http://localhost' as belt-and-suspenders
+- db.budgetConfigs.put() (upsert) confirmed over add() per RESEARCH.md for onboarding wizard re-save scenario
+- currency: 'KRW' default in settingsStore is backward-compatible — Zustand persist shallow-merges so existing stored states without the key receive KRW
+
 ### Critical Implementation Notes
 
 - `monthStartDay` allows payday-based months (e.g. 25th to 24th). Non-trivial edge case requiring dedicated tests.
@@ -123,10 +130,10 @@ None.
 
 ## Session Continuity
 
-**Last session:** 2026-03-10T00:43:00Z
-**Stopped at:** Completed 02-budget-engine-onboarding/02-01-PLAN.md
-**Next action:** Execute Plan 02-02 — Onboarding UI (multi-step wizard with live variable budget preview)
+**Last session:** 2026-03-10T00:50:00Z
+**Stopped at:** Completed 02-budget-engine-onboarding/02-02-PLAN.md
+**Next action:** Execute Plan 02-03 — Onboarding UI (multi-step wizard with live variable budget preview)
 
 ---
 
-*State last updated: 2026-03-10T00:43:00Z*
+*State last updated: 2026-03-10T00:50:00Z*

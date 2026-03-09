@@ -7,9 +7,9 @@
 
 ### Budget Setup
 
-- [ ] **BUDG-01**: User can input monthly income
-- [ ] **BUDG-02**: User can add, edit, and remove fixed expenses (name, amount, category)
-- [ ] **BUDG-03**: User can set an optional monthly savings goal
+- [x] **BUDG-01**: User can input monthly income
+- [x] **BUDG-02**: User can add, edit, and remove fixed expenses (name, amount, category)
+- [x] **BUDG-03**: User can set an optional monthly savings goal
 - [x] **BUDG-04**: Variable budget auto-calculates: income − fixed expenses − savings goal
 - [x] **BUDG-05**: User can set month start day (1–31, e.g. payday-based like 25th)
 - [x] **BUDG-06**: User can set currency (KRW default, USD, JPY)
@@ -90,9 +90,9 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| BUDG-01 | Phase 2 | Pending |
-| BUDG-02 | Phase 2 | Pending |
-| BUDG-03 | Phase 2 | Pending |
+| BUDG-01 | Phase 2 | Complete |
+| BUDG-02 | Phase 2 | Complete |
+| BUDG-03 | Phase 2 | Complete |
 | BUDG-04 | Phase 2 | Complete |
 | BUDG-05 | Phase 2 | Complete |
 | BUDG-06 | Phase 2 | Complete |

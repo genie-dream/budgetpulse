@@ -105,7 +105,7 @@ Plans:
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation | 4/4 | Complete   | 2026-03-09 |
-| 2. Budget Engine + Onboarding | 1/4 | In Progress|  |
+| 2. Budget Engine + Onboarding | 2/4 | In Progress|  |
 | 3. Transaction Logging | 0/? | Not started | - |
 | 4. Dashboard | 0/? | Not started | - |
 | 5. Analytics, Settings & PWA Polish | 0/? | Not started | - |
