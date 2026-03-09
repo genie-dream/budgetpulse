@@ -3,16 +3,16 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 current_phase: 1 - Foundation
-current_plan: 01-03 complete, next 01-04
+current_plan: 01-04 in progress (paused at checkpoint Task 3/3)
 status: in_progress
-stopped_at: Completed 01-03-PLAN.md
-last_updated: "2026-03-09T14:45:45.296Z"
+stopped_at: Paused at checkpoint Task 3 of 01-04-PLAN.md (human-verify)
+last_updated: "2026-03-09T14:51:15.621Z"
 progress:
   total_phases: 5
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 4
-  completed_plans: 3
-  percent: 50
+  completed_plans: 4
+  percent: 75
 ---
 
 # STATE: BudgetPulse
@@ -33,13 +33,13 @@ progress:
 ## Current Position
 
 **Current Phase:** 1 - Foundation
-**Current Plan:** 01-03 complete, next 01-04
-**Phase Status:** In progress (3/4 plans complete)
-**Overall Status:** Phase 1 in progress — scaffold, types, data layer, and app shell complete
+**Current Plan:** 01-04 in progress (paused at checkpoint — awaiting human verification)
+**Phase Status:** In progress (3.5/4 plans — tasks 1+2 of plan 4 complete)
+**Overall Status:** Phase 1 nearly complete — PWA manifest, service worker, icons, and font wired up
 
 ```
-Progress: [████████░░] 75% complete (Phase 1: 3/4 plans)
-Phase 1 [███..] | Phase 2 [.....] | Phase 3 [.....] | Phase 4 [.....] | Phase 5 [.....]
+Progress: [█████████░] 87% complete (Phase 1: 3.5/4 plans)
+Phase 1 [████.] | Phase 2 [.....] | Phase 3 [.....] | Phase 4 [.....] | Phase 5 [.....]
 ```
 
 ---
@@ -86,6 +86,12 @@ Phase 1 [███..] | Phase 2 [.....] | Phase 3 [.....] | Phase 4 [.....] | Ph
 - @testing-library/jest-dom added to devDependencies — required for toBeInTheDocument matcher in test suite
 - BottomNav created during Task 1 to resolve layout.tsx build-time import error (Rule 3 auto-fix)
 
+### Decisions from Plan 01-04
+
+- Pretendard font not downloaded (network unavailable during execution) — Inter (next/font/google) used as temporary substitute with TODO comment in layout.tsx for easy swap
+- sharp installed as devDependency for reproducible icon generation from SVG source via scripts/generate-icons.mjs
+- ServiceWorkerRegistration client component placed early in layout body to register SW and rehydrate Zustand stores immediately on mount
+
 ### Critical Implementation Notes
 
 - `monthStartDay` allows payday-based months (e.g. 25th to 24th). Non-trivial edge case requiring dedicated tests.
@@ -100,7 +106,7 @@ Phase 1 [███..] | Phase 2 [.....] | Phase 3 [.....] | Phase 4 [.....] | Ph
 - [x] Read Architecture doc at `/Architecture_BudgetPulse1.1.md` before Phase 1 planning
 - [x] Execute Plan 01-02: IndexedDB schema (Dexie)
 - [x] Execute Plan 01-03: App shell + BottomNav
-- [ ] Execute Plan 01-04: PWA manifest
+- [~] Execute Plan 01-04: PWA manifest (tasks 1+2 complete, awaiting human-verify checkpoint)
 
 ### Blockers
 
@@ -110,9 +116,9 @@ None.
 
 ## Session Continuity
 
-**Last session:** 2026-03-09T14:45:45.294Z
-**Stopped at:** Completed 01-03-PLAN.md
-**Next action:** Execute Plan 01-04 (PWA manifest)
+**Last session:** 2026-03-09T14:51:15.619Z
+**Stopped at:** Paused at checkpoint Task 3 of 01-04-PLAN.md (human-verify)
+**Next action:** Resume Plan 01-04 Task 3 checkpoint — human must verify app in Chrome DevTools then signal "approved"
 
 ---
 
