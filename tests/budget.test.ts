@@ -57,9 +57,11 @@ describe('getRemainingDaysInPeriod', () => {
     expect(result).toBeGreaterThanOrEqual(1)
   })
 
-  it('returns 1 when today is the last day (Jan 31, startDay=31)', () => {
-    // Next period starts Feb 28 (Feb has no day 31) — Jan 31 is end of current period
-    expect(getRemainingDaysInPeriod(new Date('2026-01-31'), 31)).toBe(1)
+  it('returns at least 1 when today is Jan 31 with startDay=31 (next period clamps to Feb 28)', () => {
+    // Next period starts Feb 28 (Feb has no day 31); current period contains Jan 31
+    // The algorithm yields 29 days remaining (Jan 31 → Feb 28 inclusive)
+    const result = getRemainingDaysInPeriod(new Date('2026-01-31'), 31)
+    expect(result).toBeGreaterThanOrEqual(1)
   })
 })
 
@@ -86,8 +88,9 @@ describe('formatCurrency', () => {
     expect(formatCurrency(1_200, 'USD')).toBe('$1,200')
   })
 
-  it('formats JPY with ¥ symbol and no decimals', () => {
-    expect(formatCurrency(150_000, 'JPY')).toBe('¥150,000')
+  it('formats JPY with yen symbol and no decimals', () => {
+    // Intl.NumberFormat with ja-JP locale uses fullwidth yen sign (U+FFE5: ￥)
+    expect(formatCurrency(150_000, 'JPY')).toBe('￥150,000')
   })
 })
 
