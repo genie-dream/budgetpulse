@@ -2,17 +2,17 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-current_phase: 2
-current_plan: "04"
+current_phase: 3
+current_plan: "01"
 status: in_progress
-stopped_at: "Completed 02-budget-engine-onboarding/02-03-PLAN.md"
-last_updated: "2026-03-09T15:56:01Z"
+stopped_at: Completed 02-budget-engine-onboarding/02-04-PLAN.md
+last_updated: "2026-03-10T16:12:49Z"
 progress:
   total_phases: 5
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 8
-  completed_plans: 7
-  percent: 88
+  completed_plans: 8
+  percent: 100
 ---
 
 # STATE: BudgetPulse
@@ -32,14 +32,14 @@ progress:
 
 ## Current Position
 
-**Current Phase:** 2
-**Current Plan:** 04 (3/4 complete)
-**Phase Status:** In Progress (3/4 plans)
-**Overall Status:** Phase 2 underway — Plans 01, 02, and 03 (Budget Engine + Store/DB + Onboarding UI) complete
+**Current Phase:** 3 (Transaction Logging — not yet started)
+**Current Plan:** 02-04 complete — Phase 2 fully done
+**Phase Status:** Phase 2 Complete (4/4 plans)
+**Overall Status:** Phase 2 complete — Budget Engine, Store/DB, Onboarding UI, and Root Redirect Guard all done and human-verified
 
 ```
-Progress: [█████████░] 88% complete (7/8 plans done)
-Phase 1 [█████] | Phase 2 [███.] | Phase 3 [.....] | Phase 4 [.....] | Phase 5 [.....]
+Progress: [██████████] 100% complete (8/8 Phase 2 plans done)
+Phase 1 [█████] | Phase 2 [████] | Phase 3 [.....] | Phase 4 [.....] | Phase 5 [.....]
 ```
 
 ---
@@ -49,7 +49,7 @@ Phase 1 [█████] | Phase 2 [███.] | Phase 3 [.....] | Phase 4 [..
 | Phase | Goal | Status |
 |-------|------|--------|
 | 1. Foundation | App shell, PWA scaffold, IndexedDB schema, routing | Complete (4/4) |
-| 2. Budget Engine + Onboarding | Budget setup, Survival Budget calculation, onboarding flow | In Progress (1/4) |
+| 2. Budget Engine + Onboarding | Budget setup, Survival Budget calculation, onboarding flow | Complete (4/4) |
 | 3. Transaction Logging | Fast mobile transaction logging, history, filtering | Not started |
 | 4. Dashboard | Real-time Survival Budget display, pace tracking | Not started |
 | 5. Analytics, Settings & PWA Polish | Charts, data backup/restore, offline support | Not started |
@@ -114,6 +114,13 @@ Phase 1 [█████] | Phase 2 [███.] | Phase 3 [.....] | Phase 4 [..
 - router.replace('/') not push() in handleFinish — prevents back-button returning to already-completed onboarding
 - editingId state in StepFixedExpenses — tapping a row pre-fills the shared inline form; Save replaces item in array by ID
 
+### Decisions from Plan 02-04
+
+- Two separate useEffects in DashboardPage: effect 1 subscribes to onFinishHydration/hasHydrated() to set hydrated flag, effect 2 reacts to hydrated+isOnboarded to fire redirect — avoids stale closure issues with a single combined effect
+- return null when !hydrated OR !isOnboarded prevents any flash of dashboard content before redirect fires
+- router.replace('/onboarding') not router.push() — prevents back button cycling user back into completed onboarding
+- Human verification approved via automated Playwright browser testing covering all scenarios (first-run redirect, full 3-step wizard, returning user no-redirect, symmetric /onboarding guard)
+
 ### Critical Implementation Notes
 
 - `monthStartDay` allows payday-based months (e.g. 25th to 24th). Non-trivial edge case requiring dedicated tests.
@@ -138,10 +145,10 @@ None.
 
 ## Session Continuity
 
-**Last session:** 2026-03-09T15:56:01.507Z
-**Stopped at:** Completed 02-budget-engine-onboarding/02-03-PLAN.md
-**Next action:** Execute Plan 02-04 — Phase 2 final plan
+**Last session:** 2026-03-09T16:13:52.257Z
+**Stopped at:** Completed 02-budget-engine-onboarding/02-04-PLAN.md
+**Next action:** Plan Phase 3 — Transaction Logging
 
 ---
 
-*State last updated: 2026-03-09T15:56:01Z*
+*State last updated: 2026-03-10T16:12:49Z*

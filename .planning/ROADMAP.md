@@ -11,7 +11,7 @@
 ## Phases
 
 - [x] **Phase 1: Foundation** - Next.js PWA scaffold with IndexedDB data layer, routing shell, and TypeScript foundation (completed 2026-03-09)
-- [ ] **Phase 2: Budget Engine + Onboarding** - Budget setup, Survival Budget calculation, month boundary logic, and first-run onboarding
+- [x] **Phase 2: Budget Engine + Onboarding** - Budget setup, Survival Budget calculation, month boundary logic, and first-run onboarding (completed 2026-03-09)
 - [ ] **Phase 3: Transaction Logging** - Fast mobile-friendly transaction logging with history browsing and filtering
 - [ ] **Phase 4: Dashboard** - Real-time Survival Budget display, spending pace status, and over-budget states
 - [ ] **Phase 5: Analytics, Settings & PWA Polish** - Spending charts, past-month browsing, data backup/restore, offline support, and performance
@@ -105,7 +105,7 @@ Plans:
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation | 4/4 | Complete   | 2026-03-09 |
-| 2. Budget Engine + Onboarding | 3/4 | In Progress|  |
+| 2. Budget Engine + Onboarding | 4/4 | Complete   | 2026-03-09 |
 | 3. Transaction Logging | 0/? | Not started | - |
 | 4. Dashboard | 0/? | Not started | - |
 | 5. Analytics, Settings & PWA Polish | 0/? | Not started | - |
