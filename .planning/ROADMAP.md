@@ -31,7 +31,13 @@
   3. IndexedDB schema (budget config, transactions) is defined and readable/writable via Dexie.js
   4. The app passes Lighthouse PWA audit with installability criteria met on iOS and Android
   5. Initial page load completes in under 2 seconds on a simulated mobile connection
-**Plans**: TBD
+**Plans**: 4 plans
+
+Plans:
+- [ ] 01-01-PLAN.md — Scaffold project, install dependencies, define TypeScript type contracts
+- [ ] 01-02-PLAN.md — Dexie.js schema, Zustand stores, next-intl i18n wiring and message files
+- [ ] 01-03-PLAN.md — App shell: root layout, dark mode, 5-route pages, BottomNav with FAB Add button
+- [ ] 01-04-PLAN.md — PWA manifest, service worker, app icons, Pretendard font loading
 
 ### Phase 2: Budget Engine + Onboarding
 
@@ -92,7 +98,7 @@
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 0/? | Not started | - |
+| 1. Foundation | 0/4 | Planned | - |
 | 2. Budget Engine + Onboarding | 0/? | Not started | - |
 | 3. Transaction Logging | 0/? | Not started | - |
 | 4. Dashboard | 0/? | Not started | - |
@@ -140,3 +146,4 @@
 ---
 
 *Roadmap created: 2026-03-09*
+*Phase 1 plans created: 2026-03-09*
