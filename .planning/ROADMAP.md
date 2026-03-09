@@ -98,7 +98,7 @@ Plans:
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 0/4 | Planned | - |
+| 1. Foundation | 1/4 | In Progress|  |
 | 2. Budget Engine + Onboarding | 0/? | Not started | - |
 | 3. Transaction Logging | 0/? | Not started | - |
 | 4. Dashboard | 0/? | Not started | - |
