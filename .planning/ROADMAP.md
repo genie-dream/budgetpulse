@@ -50,7 +50,13 @@ Plans:
   3. Variable budget correctly computes: income − sum(fixed expenses) − savings goal
   4. Daily Survival Budget recalculates correctly when month start day is set to a non-1st date (e.g. 25th)
   5. Currency symbol displays correctly for KRW, USD, and JPY throughout the app
-**Plans**: TBD
+**Plans**: 4 plans
+
+Plans:
+- [ ] 02-01-PLAN.md — TDD: pure calculation engine (calcVariableBudget, getRemainingDaysInPeriod, formatCurrency, detectCurrencyFromLocale)
+- [ ] 02-02-PLAN.md — Extend settingsStore with currency field + BudgetConfig persistence test
+- [ ] 02-03-PLAN.md — 3-step onboarding wizard UI (Income, Fixed Expenses, Savings Goal) with LiveBudgetBar and SwipeToDelete
+- [ ] 02-04-PLAN.md — Root page redirect guard + human verification of full first-run flow
 
 ### Phase 3: Transaction Logging
 
@@ -99,7 +105,7 @@ Plans:
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation | 4/4 | Complete   | 2026-03-09 |
-| 2. Budget Engine + Onboarding | 0/? | Not started | - |
+| 2. Budget Engine + Onboarding | 0/4 | Not started | - |
 | 3. Transaction Logging | 0/? | Not started | - |
 | 4. Dashboard | 0/? | Not started | - |
 | 5. Analytics, Settings & PWA Polish | 0/? | Not started | - |
@@ -147,3 +153,4 @@ Plans:
 
 *Roadmap created: 2026-03-09*
 *Phase 1 plans created: 2026-03-09*
+*Phase 2 plans created: 2026-03-10*
