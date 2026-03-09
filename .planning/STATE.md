@@ -3,15 +3,16 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 current_phase: 1 - Foundation
-current_plan: 01-01 complete, next 01-02
+current_plan: 01-03 complete, next 01-04
 status: in_progress
-last_updated: "2026-03-09T14:38:47.925Z"
+stopped_at: Completed 01-03-PLAN.md
+last_updated: "2026-03-09T14:45:45.296Z"
 progress:
   total_phases: 5
   completed_phases: 0
   total_plans: 4
-  completed_plans: 1
-  percent: 25
+  completed_plans: 3
+  percent: 50
 ---
 
 # STATE: BudgetPulse
@@ -32,13 +33,13 @@ progress:
 ## Current Position
 
 **Current Phase:** 1 - Foundation
-**Current Plan:** 01-01 complete, next 01-02
-**Phase Status:** In progress (1/4 plans complete)
-**Overall Status:** Phase 1 in progress — scaffold and types complete
+**Current Plan:** 01-02 complete, next 01-03
+**Phase Status:** In progress (2/4 plans complete)
+**Overall Status:** Phase 1 in progress — scaffold, types, and data layer complete
 
 ```
-Progress: [███░░░░░░░] 25% complete (Phase 1: 1/4 plans)
-Phase 1 [█....] | Phase 2 [.....] | Phase 3 [.....] | Phase 4 [.....] | Phase 5 [.....]
+Progress: [█████░░░░░] 50% complete (Phase 1: 2/4 plans)
+Phase 1 [██...] | Phase 2 [.....] | Phase 3 [.....] | Phase 4 [.....] | Phase 5 [.....]
 ```
 
 ---
@@ -47,7 +48,7 @@ Phase 1 [█....] | Phase 2 [.....] | Phase 3 [.....] | Phase 4 [.....] | Phase 
 
 | Phase | Goal | Status |
 |-------|------|--------|
-| 1. Foundation | App shell, PWA scaffold, IndexedDB schema, routing | In progress (1/4) |
+| 1. Foundation | App shell, PWA scaffold, IndexedDB schema, routing | In progress (2/4) |
 | 2. Budget Engine + Onboarding | Budget setup, Survival Budget calculation, onboarding flow | Not started |
 | 3. Transaction Logging | Fast mobile transaction logging, history, filtering | Not started |
 | 4. Dashboard | Real-time Survival Budget display, pace tracking | Not started |
@@ -72,6 +73,13 @@ Phase 1 [█....] | Phase 2 [.....] | Phase 3 [.....] | Phase 4 [.....] | Phase 
 - Category type as string union (not enum) for Dexie JSON serialization compatibility
 - Skipped next-pwa (abandoned package) — native manifest.ts for Phase 1, @serwist/next deferred to Phase 5
 
+### Decisions from Plan 01-02
+
+- transactionStore is in-memory only (no persist) — Dexie is source of truth for transactions; Zustand is a display cache
+- budgetStore and settingsStore both use skipHydration: true to prevent SSR/client hydration mismatch
+- Cookie-based locale (not URL segment) for language switching without route changes — matches mobile PWA UX
+- Exported BudgetPulseDB class alongside db singleton so tests can inspect schema via db.table().schema.indexes
+
 ### Critical Implementation Notes
 
 - `monthStartDay` allows payday-based months (e.g. 25th to 24th). Non-trivial edge case requiring dedicated tests.
@@ -84,7 +92,7 @@ Phase 1 [█....] | Phase 2 [.....] | Phase 3 [.....] | Phase 4 [.....] | Phase 
 
 - [x] Run `/gsd:plan-phase 1` to plan Phase 1: Foundation
 - [x] Read Architecture doc at `/Architecture_BudgetPulse1.1.md` before Phase 1 planning
-- [ ] Execute Plan 01-02: IndexedDB schema (Dexie)
+- [x] Execute Plan 01-02: IndexedDB schema (Dexie)
 - [ ] Execute Plan 01-03: App shell + BottomNav
 - [ ] Execute Plan 01-04: PWA manifest
 
@@ -96,9 +104,9 @@ None.
 
 ## Session Continuity
 
-**Last session:** 2026-03-09T14:37:51Z
-**Stopped at:** Completed 01-01-PLAN.md
-**Next action:** Execute Plan 01-02 (IndexedDB schema)
+**Last session:** 2026-03-09T14:45:45.294Z
+**Stopped at:** Completed 01-03-PLAN.md
+**Next action:** Execute Plan 01-03 (App shell + BottomNav)
 
 ---
 
