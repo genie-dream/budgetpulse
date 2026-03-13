@@ -102,3 +102,63 @@ export function formatCurrency(amount: number, currency: CurrencyCode): string {
     maximumFractionDigits: 0,
   }).format(amount)
 }
+
+/**
+ * Returns the start date of the current budget period using local-date constructor.
+ * Avoids UTC drift by never using ISO strings — always uses new Date(year, month, day).
+ *
+ * If today's date >= clampedStartDay: period started this calendar month.
+ * Otherwise: period started last calendar month.
+ */
+export function getPeriodStartDate(today: Date, monthStartDay: number): Date {
+  const year = today.getFullYear()
+  const month = today.getMonth() // 0-indexed
+  const dayOfMonth = today.getDate()
+
+  const clampedStart = Math.min(monthStartDay, daysInMonth(year, month))
+
+  if (dayOfMonth >= clampedStart) {
+    return new Date(year, month, clampedStart)
+  } else {
+    const prevMonth = month - 1
+    const prevYear = prevMonth < 0 ? year - 1 : year
+    const normalizedPrevMonth = prevMonth < 0 ? 11 : prevMonth
+    const clampedPrevStart = Math.min(monthStartDay, daysInMonth(prevYear, normalizedPrevMonth))
+    return new Date(prevYear, normalizedPrevMonth, clampedPrevStart)
+  }
+}
+
+/** Spending pace relative to expected spend — safe < 0.9, caution 0.9–1.1, danger >= 1.1 */
+export type PaceStatus = 'safe' | 'caution' | 'danger'
+
+/**
+ * Returns the ratio of actual spend to expected spend at this point in the budget period.
+ * Guards against variableBudget <= 0: returns 0 when totalSpent is also 0, else returns 2.
+ */
+export function calcPaceRatio(
+  totalSpent: number,
+  variableBudget: number,
+  monthStartDay: number,
+  today: Date = new Date(),
+): number {
+  if (variableBudget <= 0) return totalSpent > 0 ? 2 : 0
+
+  const periodStart = getPeriodStartDate(today, monthStartDay)
+  const totalDays = getRemainingDaysInPeriod(periodStart, monthStartDay)
+  const remainingDays = getRemainingDaysInPeriod(today, monthStartDay)
+  const daysElapsed = totalDays - remainingDays + 1
+  const expectedSpent = variableBudget * (daysElapsed / totalDays)
+
+  if (expectedSpent === 0) return 0
+  return totalSpent / expectedSpent
+}
+
+/**
+ * Maps a pace ratio to a human-readable status string.
+ * Thresholds: safe < 0.9, caution [0.9, 1.1), danger >= 1.1
+ */
+export function getPaceStatus(paceRatio: number): PaceStatus {
+  if (paceRatio < 0.9) return 'safe'
+  if (paceRatio < 1.1) return 'caution'
+  return 'danger'
+}

@@ -5,6 +5,9 @@ import {
   getRemainingDaysInPeriod,
   calcDailySurvivalBudget,
   formatCurrency,
+  calcPaceRatio,
+  getPaceStatus,
+  getPeriodStartDate,
 } from '../src/lib/budget'
 import { detectCurrencyFromLocale } from '../src/lib/locale'
 import type { FixedExpense } from '../src/types'
@@ -127,5 +130,92 @@ describe('detectCurrencyFromLocale', () => {
   it('returns KRW as default for unknown locale (fr)', () => {
     Object.defineProperty(navigator, 'language', { value: 'fr', configurable: true })
     expect(detectCurrencyFromLocale()).toBe('KRW')
+  })
+})
+
+describe('getPeriodStartDate', () => {
+  it('returns 2026-03-01 when today=2026-03-13 and monthStartDay=1', () => {
+    const result = getPeriodStartDate(new Date(2026, 2, 13), 1)
+    expect(result).toEqual(new Date(2026, 2, 1))
+  })
+
+  it('returns 2026-02-25 when today=2026-03-13 and monthStartDay=25 (period started last month)', () => {
+    const result = getPeriodStartDate(new Date(2026, 2, 13), 25)
+    expect(result).toEqual(new Date(2026, 1, 25))
+  })
+
+  it('returns 2026-03-25 when today=2026-03-25 and monthStartDay=25 (exactly on start day)', () => {
+    const result = getPeriodStartDate(new Date(2026, 2, 25), 25)
+    expect(result).toEqual(new Date(2026, 2, 25))
+  })
+
+  it('uses local date constructor — result year/month/date matches local time', () => {
+    const today = new Date(2026, 0, 15) // Jan 15 local
+    const result = getPeriodStartDate(today, 1)
+    expect(result.getFullYear()).toBe(2026)
+    expect(result.getMonth()).toBe(0) // January (0-indexed)
+    expect(result.getDate()).toBe(1)
+  })
+})
+
+describe('calcPaceRatio', () => {
+  it('returns 0 when variableBudget=0 and totalSpent=0', () => {
+    expect(calcPaceRatio(0, 0, 1, new Date(2026, 2, 13))).toBe(0)
+  })
+
+  it('returns 2 (danger sentinel) when variableBudget=0 and totalSpent>0', () => {
+    expect(calcPaceRatio(10_000, 0, 1, new Date(2026, 2, 13))).toBe(2)
+  })
+
+  it('returns approx 1.0 on day 1 of 31-day period when spent = variableBudget/31', () => {
+    // Period: March 1 – March 31 = 31 days; today is day 1 (March 1)
+    // daysElapsed=1, expectedSpent = budget * 1/31
+    const budget = 310_000
+    const spent = budget / 31
+    const ratio = calcPaceRatio(spent, budget, 1, new Date(2026, 2, 1))
+    expect(ratio).toBeCloseTo(1.0, 5)
+  })
+
+  it('returns 0 on day 1 when spent=0', () => {
+    const ratio = calcPaceRatio(0, 310_000, 1, new Date(2026, 2, 1))
+    expect(ratio).toBe(0)
+  })
+
+  it('returns 1.0 on last day when totalSpent = variableBudget', () => {
+    // Period: March 1 – March 31 = 31 days; today is day 31 (March 31)
+    // daysElapsed=31, expectedSpent = budget * 31/31 = budget
+    const budget = 310_000
+    const ratio = calcPaceRatio(budget, budget, 1, new Date(2026, 2, 31))
+    expect(ratio).toBeCloseTo(1.0, 5)
+  })
+})
+
+describe('getPaceStatus', () => {
+  it('returns safe for ratio=0.5', () => {
+    expect(getPaceStatus(0.5)).toBe('safe')
+  })
+
+  it('returns caution for ratio=1.0', () => {
+    expect(getPaceStatus(1.0)).toBe('caution')
+  })
+
+  it('returns danger for ratio=1.5', () => {
+    expect(getPaceStatus(1.5)).toBe('danger')
+  })
+
+  it('boundary: ratio=0.9 is caution (not safe)', () => {
+    expect(getPaceStatus(0.9)).toBe('caution')
+  })
+
+  it('boundary: ratio just below 0.9 is safe', () => {
+    expect(getPaceStatus(0.8999)).toBe('safe')
+  })
+
+  it('boundary: ratio=1.1 is danger (not caution)', () => {
+    expect(getPaceStatus(1.1)).toBe('danger')
+  })
+
+  it('boundary: ratio just below 1.1 is caution', () => {
+    expect(getPaceStatus(1.0999)).toBe('caution')
   })
 })
