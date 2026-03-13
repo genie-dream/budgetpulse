@@ -42,7 +42,7 @@ created: 2026-03-13
 | 3-01-02 | 01 | 0 | TRAN-01 | unit | `npm test -- --run tests/transactions.test.ts` | ❌ W0 | ⬜ pending |
 | 3-01-03 | 01 | 0 | TRAN-02 | unit (RTL) | `npm test -- --run tests/AddPage.test.tsx` | ❌ W0 | ⬜ pending |
 | 3-01-04 | 01 | 0 | TRAN-03 | unit (RTL) | `npm test -- --run tests/AddPage.test.tsx` | ❌ W0 | ⬜ pending |
-| 3-02-01 | 02 | 0 | TRAN-04 | unit (RTL) | `npm test -- --run tests/SwipeToDelete.test.tsx` | ❌ W0 | ⬜ pending |
+| 3-02-01 | 02 | 0 | TRAN-04 | unit (RTL) | `npm test -- --run tests/TransactionsPage.test.tsx` | ❌ W0 | ⬜ pending |
 | 3-02-02 | 02 | 0 | TRAN-05 | unit (RTL) | `npm test -- --run tests/TransactionsPage.test.tsx` | ❌ W0 | ⬜ pending |
 | 3-02-03 | 02 | 0 | TRAN-05 | unit | `npm test -- --run tests/transactions.test.ts` | ❌ W0 | ⬜ pending |
 | 3-02-04 | 02 | 0 | TRAN-06 | unit (RTL) | `npm test -- --run tests/TransactionsPage.test.tsx` | ❌ W0 | ⬜ pending |
@@ -55,7 +55,7 @@ created: 2026-03-13
 
 - [ ] `tests/transactions.test.ts` — stubs for TRAN-01 Dexie writes, `groupByDate`, `smartDateLabel` helpers
 - [ ] `tests/AddPage.test.tsx` — stubs for TRAN-02, TRAN-03 (RTL render tests with jsdom)
-- [ ] `tests/SwipeToDelete.test.tsx` — stubs for TRAN-04 (touch event simulation)
+- [ ] `tests/TransactionsPage.test.tsx` — stubs for TRAN-04, TRAN-05, TRAN-06 (RTL with fake-indexeddb; swipe-delete covered here, not a separate file)
 - [ ] `tests/TransactionsPage.test.tsx` — stubs for TRAN-05, TRAN-06 (RTL with fake-indexeddb)
 
 Note: All test infra (vitest, jsdom, fake-indexeddb, @testing-library/react) already installed. No new devDependencies needed.

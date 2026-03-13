@@ -34,7 +34,7 @@ Users can log spending quickly (amount + category in 3 taps or fewer) and browse
 - Each transaction row shows: category emoji icon + category label, amount (large/prominent), memo if present, time-of-day
 - Date group headers: sticky section header with smart labels ('Today', 'Yesterday', then 'Mar 8' format) + daily total on the right side
 - Category filter: horizontal scrollable chips at top of History page — 'All' chip plus one chip per category the user has actually used
-- Filtering triggered instantly on chip tap; uses Dexie's `[date+category]` compound index
+- Filtering triggered instantly on chip tap; uses in-memory filter on the already-loaded `transactions` array (avoids Dexie re-fetch flicker on mobile)
 - Empty state: illustration + "No transactions yet" + "Log your first one" CTA button that links to `/add`
 
 ### Claude's Discretion
@@ -77,7 +77,7 @@ Users can log spending quickly (amount + category in 3 taps or fewer) and browse
 ### Integration Points
 - After `db.transactions.add(transaction)`: call `transactionStore.addTransaction()` to update in-memory cache; then `router.push('/')` to return to dashboard
 - Dashboard (Phase 4) will subscribe to `transactionStore.transactions` for real-time Survival Budget recalculation
-- Category chip filter on History page: query `db.transactions.where('category').equals(selected).toArray()` or use `[date+category]` compound index for filtered+sorted queries
+- Category chip filter on History page: in-memory filter (`transactions.filter(tx => tx.category === selected)`) on the cached array — no Dexie re-query on chip tap
 - `formatCurrency` in `src/lib/budget.ts` used for: amount prefix symbol on Add form, amounts in history rows, daily totals in date group headers
 
 </code_context>
