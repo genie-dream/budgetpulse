@@ -49,7 +49,16 @@
     "all": "전체"
   },
   "analytics": {
-    "title": "분석"
+    "title": "분석",
+    "byCategory": "카테고리별",
+    "dailySpending": "일별 지출",
+    "monthlySummary": "월간 요약",
+    "budget": "예산",
+    "spent": "지출",
+    "saved": "저축",
+    "noSpending": "이번 기간 지출 없음",
+    "previousMonth": "이전 달",
+    "nextMonth": "다음 달"
   },
   "settings": {
     "title": "설정",
@@ -58,7 +67,22 @@
     "darkMode": "다크 모드",
     "lightMode": "라이트 모드",
     "english": "English",
-    "korean": "한국어"
+    "korean": "한국어",
+    "budget": "예산",
+    "income": "월 소득",
+    "savingsGoal": "월 저축 목표",
+    "fixedExpenses": "고정 지출",
+    "saveChanges": "변경 저장",
+    "saved": "저장 완료!",
+    "saving": "저장 중...",
+    "data": "데이터",
+    "export": "백업 내보내기",
+    "exportDesc": "모든 데이터를 JSON 파일로 다운로드",
+    "import": "백업 복원",
+    "importDesc": "JSON 백업 파일 가져오기 (현재 데이터 대체)",
+    "importConfirm": "현재 데이터가 모두 대체됩니다. 계속하시겠습니까?",
+    "importSuccess": "데이터가 성공적으로 복원되었습니다",
+    "importError": "유효하지 않은 백업 파일입니다"
   },
   "onboarding": {
     "title": "BudgetPulse에 오신 것을 환영합니다",

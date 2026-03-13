@@ -49,7 +49,16 @@
     "all": "All"
   },
   "analytics": {
-    "title": "Analytics"
+    "title": "Analytics",
+    "byCategory": "By Category",
+    "dailySpending": "Daily Spending",
+    "monthlySummary": "Monthly Summary",
+    "budget": "Budget",
+    "spent": "Spent",
+    "saved": "Saved",
+    "noSpending": "No spending this period",
+    "previousMonth": "Previous month",
+    "nextMonth": "Next month"
   },
   "settings": {
     "title": "Settings",
@@ -58,7 +67,22 @@
     "darkMode": "Dark mode",
     "lightMode": "Light mode",
     "english": "English",
-    "korean": "Korean"
+    "korean": "Korean",
+    "budget": "Budget",
+    "income": "Monthly Income",
+    "savingsGoal": "Monthly Savings Goal",
+    "fixedExpenses": "Fixed Expenses",
+    "saveChanges": "Save Changes",
+    "saved": "Saved!",
+    "saving": "Saving...",
+    "data": "Data",
+    "export": "Export Backup",
+    "exportDesc": "Download all your data as a JSON file",
+    "import": "Restore Backup",
+    "importDesc": "Import a JSON backup file (replaces current data)",
+    "importConfirm": "This will replace all current data. Are you sure?",
+    "importSuccess": "Data restored successfully",
+    "importError": "Invalid backup file"
   },
   "onboarding": {
     "title": "Welcome to BudgetPulse",
