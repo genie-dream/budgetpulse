@@ -27,7 +27,7 @@ const DEFAULT_EXPENSE_FORM: ExpenseFormState = {
  * Settings form for editing income, fixed expenses, and savings goal.
  * Reuses UI patterns from onboarding step components.
  */
-export default function BudgetEditForm({ config, onSave }: BudgetEditFormProps) {
+export function BudgetEditForm({ config, onSave }: BudgetEditFormProps) {
   const [income, setIncome] = useState(config.income)
   const [monthStartDay, setMonthStartDay] = useState(config.monthStartDay)
   const [fixedExpenses, setFixedExpenses] = useState<FixedExpense[]>(config.fixedExpenses)

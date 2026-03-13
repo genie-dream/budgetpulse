@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl'
 import { useBudgetStore } from '@/stores/budgetStore'
 import { db } from '@/lib/db'
 import type { BudgetConfig } from '@/types'
-import BudgetEditForm from '@/components/settings/BudgetEditForm'
+import { BudgetEditForm } from '@/components/settings/BudgetEditForm'
 import DataManagement from '@/components/settings/DataManagement'
 
 /**
