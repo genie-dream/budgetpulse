@@ -6,8 +6,8 @@ export class BudgetPulseDB extends Dexie {
   budgetConfigs!: Table<BudgetConfig>
   transactions!: Table<Transaction>
 
-  constructor() {
-    super('BudgetPulseDB')
+  constructor(name = 'BudgetPulseDB') {
+    super(name)
     this.version(1).stores({
       budgetConfigs: 'id, createdAt',
       transactions: 'id, date, category, [date+category]',
