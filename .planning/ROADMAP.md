@@ -122,14 +122,13 @@ Plans:
 
 **Goal:** Close all actionable tech debt from the v1.0 audit — font loading, i18n completeness, data correctness edge case, and export naming consistency
 **Depends on:** Phase 5
-**Requirements:** PWA-03 (Pretendard → load speed improvement), TRAN-05/TRAN-06 (i18n completeness), DASH-07 (period filter correctness)
+**Requirements:** PWA-03, TRAN-05, TRAN-06, DASH-07
 **Gap Closure:** Closes tech debt from v1.0 audit (audit status: tech_debt → resolved)
+**Plans:** 2 plans
 
-Tasks:
-1. **Install Pretendard font** — Download and configure Pretendard in `src/app/layout.tsx`, replacing the TODO/Inter fallback (affects PWA-03 Korean UX)
-2. **Fix i18n in transactions/page.tsx** — Replace hardcoded `'History'` and `'No transactions yet'` strings with `useTranslations('history')` calls using existing keys in `messages/en.json` and `ko.json`
-3. **Fix DASH-07 backdated filter** — Update `transactionStore.addTransaction` to filter transactions by the current period when building in-memory state, preventing backdated transactions from inflating `totalSpent` within the same session
-4. **Fix BudgetEditForm export** — Change `export default` to `export const BudgetEditForm` (named export) to align with plan 05-03 spec; update import site in Settings page
+Plans:
+- [ ] 06-01-PLAN.md — Pretendard font (next/font/local) + i18n fix in transactions/page.tsx (PWA-03, TRAN-05, TRAN-06)
+- [ ] 06-02-PLAN.md — DASH-07 backdated filter in add/page.tsx + BudgetEditForm named export (DASH-07)
 
 ---
 
@@ -142,7 +141,7 @@ Tasks:
 | 3. Transaction Logging | 4/4 | Complete   | 2026-03-13 |
 | 4. Dashboard | 4/4 | Complete   | 2026-03-13 |
 | 5. Analytics, Settings & PWA Polish | 5/5 | Complete   | 2026-03-13 |
-| 6. Tech Debt Fix | 0/4 | Pending    | - |
+| 6. Tech Debt Fix | 0/2 | Pending    | - |
 
 ---
 
@@ -191,3 +190,4 @@ Tasks:
 *Phase 3 plans created: 2026-03-13*
 *Phase 4 plans created: 2026-03-13*
 *Phase 5 plans created: 2026-03-13*
+*Phase 6 plans created: 2026-03-14*
