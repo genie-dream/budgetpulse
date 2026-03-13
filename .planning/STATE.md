@@ -3,16 +3,16 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 current_phase: 3
-current_plan: 03 (Wave 2 — TransactionsPage)
+current_plan: 04 (Wave 3 — next plan)
 status: in_progress
-stopped_at: Completed 03-02-PLAN.md
-last_updated: "2026-03-13T21:13:00Z"
+stopped_at: Completed 03-03-PLAN.md
+last_updated: "2026-03-13T12:24:00Z"
 progress:
   total_phases: 5
   completed_phases: 2
   total_plans: 12
-  completed_plans: 10
-  percent: 83
+  completed_plans: 11
+  percent: 92
 ---
 
 # STATE: BudgetPulse
@@ -33,13 +33,13 @@ progress:
 ## Current Position
 
 **Current Phase:** 3
-**Current Plan:** 03 (Wave 2 — TransactionsPage)
-**Phase Status:** Phase 3 In Progress (2/4 plans done)
-**Overall Status:** Add Transaction page, CategoryChips component, and RTL tests complete
+**Current Plan:** 04 (Wave 3 — next plan)
+**Phase Status:** Phase 3 In Progress (3/4 plans done)
+**Overall Status:** Transaction History page with date grouping, category filter, and swipe-to-delete complete
 
 ```
-Progress: [█████████░] 83% complete (10/12 plans done)
-Phase 1 [█████] | Phase 2 [████] | Phase 3 [2....] | Phase 4 [.....] | Phase 5 [.....]
+Progress: [█████████░] 92% complete (11/12 plans done)
+Phase 1 [█████] | Phase 2 [████] | Phase 3 [3....] | Phase 4 [.....] | Phase 5 [.....]
 ```
 
 ---
@@ -50,7 +50,7 @@ Phase 1 [█████] | Phase 2 [████] | Phase 3 [2....] | Phase 4 [
 |-------|------|--------|
 | 1. Foundation | App shell, PWA scaffold, IndexedDB schema, routing | Complete (4/4) |
 | 2. Budget Engine + Onboarding | Budget setup, Survival Budget calculation, onboarding flow | Complete (4/4) |
-| 3. Transaction Logging | Fast mobile transaction logging, history, filtering | In Progress (2/4) |
+| 3. Transaction Logging | Fast mobile transaction logging, history, filtering | In Progress (3/4) |
 | 4. Dashboard | Real-time Survival Budget display, pace tracking | Not started |
 | 5. Analytics, Settings & PWA Polish | Charts, data backup/restore, offline support | Not started |
 
@@ -134,6 +134,13 @@ Phase 1 [█████] | Phase 2 [████] | Phase 3 [2....] | Phase 4 [
 - settingsStore hydration guard uses persist.onFinishHydration + persist.hasHydrated() — consistent with onboarding page pattern
 - tCommon('back') used for back button aria-label — avoids redundant key in 'add' namespace
 
+### Decisions from Plan 03-03
+
+- TransactionRow receives onDelete as prop from page — no Dexie or store calls inside the component (page-owned delete handler pattern)
+- Category filter uses in-memory transactions.filter() on Zustand store — no Dexie re-fetch on chip tap per RESEARCH.md Pitfall 5
+- Test mock uses mutable _txStore.value object to allow per-test db control without vi.fn() hoisting issues in vi.mock() factory
+- Daily total in DateGroupHeader and transaction row both display same resolvedCurrency (defaults to 'KRW' before hydration)
+
 ### Critical Implementation Notes
 
 - `monthStartDay` allows payday-based months (e.g. 25th to 24th). Non-trivial edge case requiring dedicated tests.
@@ -158,10 +165,10 @@ None.
 
 ## Session Continuity
 
-**Last session:** 2026-03-13T21:13:00Z
-**Stopped at:** Completed 03-02-PLAN.md
-**Next action:** Execute Phase 3 Plan 03-03 (TransactionsPage with history and filtering)
+**Last session:** 2026-03-13T12:23:27.053Z
+**Stopped at:** Completed 03-03-PLAN.md
+**Next action:** Execute Phase 3 Plan 03-04 (final plan in phase 3)
 
 ---
 
-*State last updated: 2026-03-13T21:13:00Z*
+*State last updated: 2026-03-13T21:24:00Z*
