@@ -89,7 +89,13 @@ Plans:
   4. Spending pace indicator shows safe (green), caution (yellow), or danger (red) based on paceRatio thresholds
   5. When remaining budget goes negative, the dashboard shows a distinct over-budget state
   6. After saving a transaction, all dashboard values refresh within 100ms without a full page reload
-**Plans**: TBD
+**Plans**: 4 plans
+
+Plans:
+- [ ] 04-01-PLAN.md — TDD: calcPaceRatio, getPaceStatus, getPeriodStartDate in budget.ts + i18n dashboard keys + test scaffold
+- [ ] 04-02-PLAN.md — HeroCard component: remaining budget hero, pace badge, progress bar (DASH-01, DASH-05, DASH-06)
+- [ ] 04-03-PLAN.md — StatGrid component: daily/weekly survival, total spent, remaining days (DASH-02, DASH-03, DASH-04)
+- [ ] 04-04-PLAN.md — Dashboard page wiring: hydration guards, Dexie current-period load, human verification
 
 ### Phase 5: Analytics, Settings & PWA Polish
 
@@ -113,7 +119,7 @@ Plans:
 | 1. Foundation | 4/4 | Complete   | 2026-03-09 |
 | 2. Budget Engine + Onboarding | 4/4 | Complete   | 2026-03-09 |
 | 3. Transaction Logging | 4/4 | Complete   | 2026-03-13 |
-| 4. Dashboard | 0/? | Not started | - |
+| 4. Dashboard | 0/4 | Not started | - |
 | 5. Analytics, Settings & PWA Polish | 0/? | Not started | - |
 
 ---
@@ -161,3 +167,4 @@ Plans:
 *Phase 1 plans created: 2026-03-09*
 *Phase 2 plans created: 2026-03-10*
 *Phase 3 plans created: 2026-03-13*
+*Phase 4 plans created: 2026-03-13*
