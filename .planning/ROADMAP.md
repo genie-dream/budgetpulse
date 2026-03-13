@@ -127,7 +127,7 @@ Plans:
 | 2. Budget Engine + Onboarding | 4/4 | Complete   | 2026-03-09 |
 | 3. Transaction Logging | 4/4 | Complete   | 2026-03-13 |
 | 4. Dashboard | 4/4 | Complete   | 2026-03-13 |
-| 5. Analytics, Settings & PWA Polish | 0/5 | Not started | - |
+| 5. Analytics, Settings & PWA Polish | 1/5 | In Progress|  |
 
 ---
 

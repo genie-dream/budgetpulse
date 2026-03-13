@@ -3,16 +3,16 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 current_phase: 5
-current_plan: Not started
-status: unknown
-stopped_at: Completed 04-04-PLAN.md (Phase 4 complete)
-last_updated: "2026-03-13T14:37:29.711Z"
+current_plan: "1 of 5 complete"
+status: in-progress
+stopped_at: Completed 05-01-PLAN.md
+last_updated: "2026-03-13T15:11:47.415Z"
 progress:
   total_phases: 5
   completed_phases: 4
-  total_plans: 16
-  completed_plans: 16
-  percent: 100
+  total_plans: 21
+  completed_plans: 17
+  percent: 81
 ---
 
 # STATE: BudgetPulse
@@ -33,13 +33,13 @@ progress:
 ## Current Position
 
 **Current Phase:** 5
-**Current Plan:** Not started
-**Phase Status:** Phase 4 Complete (4/4 plans done — plan 04-00 through 04-04)
-**Overall Status:** Full dashboard page integrated: HeroCard + StatGrid wired with two-store hydration guard, Dexie current-period load, and synchronous derived values. All 7 DASH requirements human-verified. 16/16 plans complete.
+**Current Plan:** 1 of 5 complete
+**Phase Status:** Phase 5 In Progress (1/5 plans done)
+**Overall Status:** Phase 5 started. analyticsHelpers.ts pure functions tested (TDD), test stubs for Plans 05-03 and 05-04 created. 17/21 plans complete.
 
 ```
-Progress: [██████████] 100% complete (16/16 plans done)
-Phase 1 [████] | Phase 2 [████] | Phase 3 [████] | Phase 4 [████] | Phase 5 [.....]
+Progress: [████████░░] 81% complete (17/21 plans done)
+Phase 1 [████] | Phase 2 [████] | Phase 3 [████] | Phase 4 [████] | Phase 5 [█....]
 ```
 
 ---
@@ -174,6 +174,14 @@ Phase 1 [████] | Phase 2 [████] | Phase 3 [████] | Phase
 - return null guard when !hydrated OR !isOnboarded — prevents any flash of incorrect data before redirect fires
 - Human verification approved all 4 UX scenarios (A: normal state, B: real-time update, C: over-budget, D: pace badge colors)
 
+### Decisions from Plan 05-01
+
+- aggregateByDay uses local-date keys (getFullYear/getMonth/getDate) not toISOString() to avoid UTC midnight drift for UTC+9 mobile users — matches transactionHelpers.groupByDate pattern
+- getPeriodEndDate monthStartDay=1 special-case uses new Date(y, m+1, 0) trick (day 0 = last day of current month)
+- getPeriodEndDate general case: end day = monthStartDay-1 in the following month, clamped via Math.min to handle short months (Feb with monthStartDay=31)
+- tests/settings.test.ts and tests/sw.test.ts use it.todo stubs so Wave 2/3/4 plans have automated verify targets from day one (established pattern from Plan 01-01)
+- CategoryTotal.name = labelEn (same as id, English only for v1) — locale-aware labels deferred per CategoryChips decision
+
 ### Critical Implementation Notes
 
 - `monthStartDay` allows payday-based months (e.g. 25th to 24th). Non-trivial edge case requiring dedicated tests.
@@ -198,10 +206,10 @@ None.
 
 ## Session Continuity
 
-**Last session:** 2026-03-13T14:47:00Z
-**Stopped at:** Completed 04-04-PLAN.md (Phase 4 complete)
-**Next action:** Execute Phase 5 — Analytics, Settings and PWA Polish
+**Last session:** 2026-03-13T15:11:47.413Z
+**Stopped at:** Completed 05-01-PLAN.md
+**Next action:** Execute Plan 05-02 — Analytics Page (AnalyticsPage component consuming analyticsHelpers)
 
 ---
 
-*State last updated: 2026-03-13T14:47:00Z*
+*State last updated: 2026-03-13T15:14:00Z*

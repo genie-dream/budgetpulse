@@ -39,16 +39,16 @@
 
 ### Analytics
 
-- [ ] **ANLX-01**: Category donut chart for current month spending
-- [ ] **ANLX-02**: Daily spending bar chart
-- [ ] **ANLX-03**: Monthly summary showing budget vs actual spend
-- [ ] **ANLX-04**: User can browse analytics for past months
+- [x] **ANLX-01**: Category donut chart for current month spending
+- [x] **ANLX-02**: Daily spending bar chart
+- [x] **ANLX-03**: Monthly summary showing budget vs actual spend
+- [x] **ANLX-04**: User can browse analytics for past months
 
 ### Settings & Data
 
 - [ ] **SETT-01**: User can update income, fixed expenses, and savings goal at any time
-- [ ] **SETT-02**: User can export all data as a JSON file (backup)
-- [ ] **SETT-03**: User can import a JSON file to restore data (with structure validation)
+- [x] **SETT-02**: User can export all data as a JSON file (backup)
+- [x] **SETT-03**: User can import a JSON file to restore data (with structure validation)
 
 ### PWA
 
@@ -110,13 +110,13 @@
 | DASH-05 | Phase 4 | Complete |
 | DASH-06 | Phase 4 | Complete |
 | DASH-07 | Phase 4 | Complete |
-| ANLX-01 | Phase 5 | Pending |
-| ANLX-02 | Phase 5 | Pending |
-| ANLX-03 | Phase 5 | Pending |
-| ANLX-04 | Phase 5 | Pending |
+| ANLX-01 | Phase 5 | Complete |
+| ANLX-02 | Phase 5 | Complete |
+| ANLX-03 | Phase 5 | Complete |
+| ANLX-04 | Phase 5 | Complete |
 | SETT-01 | Phase 5 | Pending |
-| SETT-02 | Phase 5 | Pending |
-| SETT-03 | Phase 5 | Pending |
+| SETT-02 | Phase 5 | Complete |
+| SETT-03 | Phase 5 | Complete |
 | PWA-01 | Phase 1 | Complete |
 | PWA-02 | Phase 5 | Pending |
 | PWA-03 | Phase 1 | Complete |
