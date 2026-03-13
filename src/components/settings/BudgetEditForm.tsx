@@ -29,6 +29,7 @@ const DEFAULT_EXPENSE_FORM: ExpenseFormState = {
  */
 export default function BudgetEditForm({ config, onSave }: BudgetEditFormProps) {
   const [income, setIncome] = useState(config.income)
+  const [monthStartDay, setMonthStartDay] = useState(config.monthStartDay)
   const [fixedExpenses, setFixedExpenses] = useState<FixedExpense[]>(config.fixedExpenses)
   const [savingsGoal, setSavingsGoal] = useState(config.savingsGoal)
   const [saving, setSaving] = useState(false)
@@ -45,7 +46,7 @@ export default function BudgetEditForm({ config, onSave }: BudgetEditFormProps) 
 
   async function handleSave() {
     setSaving(true)
-    await onSave({ income, fixedExpenses, savingsGoal })
+    await onSave({ income, monthStartDay, fixedExpenses, savingsGoal })
     setSaving(false)
     setSaved(true)
     setTimeout(() => setSaved(false), 2000)
@@ -194,6 +195,28 @@ export default function BudgetEditForm({ config, onSave }: BudgetEditFormProps) 
           value={income === 0 ? '' : String(income)}
           onChange={handleIncomeChange}
         />
+      </div>
+
+      {/* Pay day section */}
+      <div className="flex flex-col gap-2">
+        <label htmlFor="settings-payday" className="text-sm font-medium text-slate-300">
+          Pay Day (day of month)
+        </label>
+        <input
+          id="settings-payday"
+          type="number"
+          min={1}
+          max={31}
+          className="min-h-[44px] w-full rounded-xl bg-slate-800 border border-slate-700 px-4 text-slate-100 text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          value={monthStartDay}
+          onChange={(e) => {
+            const v = Math.max(1, Math.min(31, Number(e.target.value.replace(/\D/g, '')) || 1))
+            setMonthStartDay(v)
+          }}
+        />
+        <p className="text-xs text-slate-500">
+          Your budget period starts on this day each month.
+        </p>
       </div>
 
       {/* Fixed Expenses section */}
