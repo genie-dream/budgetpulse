@@ -17,7 +17,19 @@
   },
   "home": {
     "title": "BudgetPulse",
-    "noData": "예산을 설정하여 시작하세요"
+    "noData": "예산을 설정하여 시작하세요",
+    "remainingThisMonth": "이번 달 남은 예산",
+    "overBudget": "예산 초과",
+    "variableBudget": "변동 예산",
+    "totalSpent": "총 지출",
+    "remainingDays": "남은 일수",
+    "dailySurvival": "하루",
+    "weeklySurvival": "주간",
+    "paceLabel": "페이스",
+    "paceSafe": "안전",
+    "paceCaution": "주의",
+    "paceDanger": "위험",
+    "days": "일"
   },
   "add": {
     "title": "지출 추가",

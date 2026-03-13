@@ -17,7 +17,19 @@
   },
   "home": {
     "title": "BudgetPulse",
-    "noData": "Set up your budget to get started"
+    "noData": "Set up your budget to get started",
+    "remainingThisMonth": "remaining this month",
+    "overBudget": "Over budget",
+    "variableBudget": "Variable Budget",
+    "totalSpent": "Total Spent",
+    "remainingDays": "Remaining Days",
+    "dailySurvival": "Daily",
+    "weeklySurvival": "Weekly",
+    "paceLabel": "Pace",
+    "paceSafe": "Safe",
+    "paceCaution": "Caution",
+    "paceDanger": "Danger",
+    "days": "days"
   },
   "add": {
     "title": "Add Transaction",
