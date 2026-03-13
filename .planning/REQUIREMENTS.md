@@ -35,7 +35,7 @@
 - [x] **DASH-04**: Dashboard shows remaining days in the current budget month
 - [x] **DASH-05**: Dashboard shows Spending Pace status: safe (paceRatio < 0.9), caution (0.9–1.1), danger (≥ 1.1)
 - [x] **DASH-06**: Dashboard shows over-budget state when remainingBudget < 0
-- [ ] **DASH-07**: Dashboard updates in < 100ms after a transaction is saved
+- [x] **DASH-07**: Dashboard updates in < 100ms after a transaction is saved
 
 ### Analytics
 
@@ -109,7 +109,7 @@
 | DASH-04 | Phase 4 | Complete |
 | DASH-05 | Phase 4 | Complete |
 | DASH-06 | Phase 4 | Complete |
-| DASH-07 | Phase 4 | Pending |
+| DASH-07 | Phase 4 | Complete |
 | ANLX-01 | Phase 5 | Pending |
 | ANLX-02 | Phase 5 | Pending |
 | ANLX-03 | Phase 5 | Pending |

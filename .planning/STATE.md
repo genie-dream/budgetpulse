@@ -3,16 +3,16 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 current_phase: 4
-current_plan: "3 (complete — next: 04-04)"
+current_plan: "4"
 status: in-progress
-stopped_at: Completed 04-03-PLAN.md
-last_updated: "2026-03-13T14:21:00Z"
+stopped_at: Completed 04-04-PLAN.md
+last_updated: "2026-03-13T14:47:00Z"
 progress:
   total_phases: 5
   completed_phases: 3
   total_plans: 16
-  completed_plans: 15
-  percent: 94
+  completed_plans: 16
+  percent: 100
 ---
 
 # STATE: BudgetPulse
@@ -33,13 +33,13 @@ progress:
 ## Current Position
 
 **Current Phase:** 4
-**Current Plan:** 3 (complete — next: 04-04)
-**Phase Status:** Phase 4 In Progress (3/5 plans done)
-**Overall Status:** StatGrid component fully implemented (2x2 grid, correct card order). 90 tests passing. Ready for Plan 04-04 (dashboard page integration).
+**Current Plan:** 4 (complete — phase 4 done)
+**Phase Status:** Phase 4 Complete (4/4 plans done — plan 04-00 through 04-04)
+**Overall Status:** Full dashboard page integrated: HeroCard + StatGrid wired with two-store hydration guard, Dexie current-period load, and synchronous derived values. All 7 DASH requirements human-verified. 16/16 plans complete.
 
 ```
-Progress: [█████████░] 94% complete (15/16 plans done)
-Phase 1 [████] | Phase 2 [████] | Phase 3 [████] | Phase 4 [███..] | Phase 5 [.....]
+Progress: [██████████] 100% complete (16/16 plans done)
+Phase 1 [████] | Phase 2 [████] | Phase 3 [████] | Phase 4 [████] | Phase 5 [.....]
 ```
 
 ---
@@ -51,7 +51,7 @@ Phase 1 [████] | Phase 2 [████] | Phase 3 [████] | Phase
 | 1. Foundation | App shell, PWA scaffold, IndexedDB schema, routing | Complete (4/4) |
 | 2. Budget Engine + Onboarding | Budget setup, Survival Budget calculation, onboarding flow | Complete (4/4) |
 | 3. Transaction Logging | Fast mobile transaction logging, history, filtering | Complete (4/4) |
-| 4. Dashboard | Real-time Survival Budget display, pace tracking | In progress (3/5) |
+| 4. Dashboard | Real-time Survival Budget display, pace tracking | Complete (4/4) |
 | 5. Analytics, Settings & PWA Polish | Charts, data backup/restore, offline support | Not started |
 
 ---
@@ -166,6 +166,14 @@ Phase 1 [████] | Phase 2 [████] | Phase 3 [████] | Phase
 - Card order: Daily Survival (top-left), Weekly Survival (top-right), Total Spent (bottom-left), Remaining Days (bottom-right) — matches plan spec
 - dashboard.test.ts Wave 0 stub removed; dashboard.test.tsx was the authoritative test file from Plan 04-02
 
+### Decisions from Plan 04-04
+
+- Current-period Dexie query scoped via getPeriodStartDate(new Date(), config.monthStartDay) — avoids all-time totalSpent inflation
+- dailySurvival uses Math.max(0, remainingBudget) as input to calcDailySurvivalBudget — survival budget is never negative
+- resolvedCurrency defaults to 'KRW' before hydration — same defensive pattern as TransactionsPage
+- return null guard when !hydrated OR !isOnboarded — prevents any flash of incorrect data before redirect fires
+- Human verification approved all 4 UX scenarios (A: normal state, B: real-time update, C: over-budget, D: pace badge colors)
+
 ### Critical Implementation Notes
 
 - `monthStartDay` allows payday-based months (e.g. 25th to 24th). Non-trivial edge case requiring dedicated tests.
@@ -190,10 +198,10 @@ None.
 
 ## Session Continuity
 
-**Last session:** 2026-03-13T14:21:00Z
-**Stopped at:** Completed 04-03-PLAN.md
-**Next action:** Execute Plan 04-04 — dashboard page integration
+**Last session:** 2026-03-13T14:47:00Z
+**Stopped at:** Completed 04-04-PLAN.md (Phase 4 complete)
+**Next action:** Execute Phase 5 — Analytics, Settings and PWA Polish
 
 ---
 
-*State last updated: 2026-03-13T14:21:00Z*
+*State last updated: 2026-03-13T14:47:00Z*
