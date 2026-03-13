@@ -1,7 +1,7 @@
 // tests/TransactionsPage.test.tsx
 // RTL tests for Transaction History page (TRAN-04, TRAN-05, TRAN-06)
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { render, screen, fireEvent, waitFor, act } from '@testing-library/react'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import { useTransactionStore } from '@/stores/transactionStore'
 import type { Transaction } from '@/types'
 
@@ -11,28 +11,32 @@ vi.mock('next/navigation', () => ({
   usePathname: () => '/transactions',
 }))
 
-// Mock Dexie db — we control what it returns
-vi.mock('@/lib/db', () => {
-  const transactions: Transaction[] = []
-  return {
-    db: {
-      transactions: {
-        orderBy: () => ({
-          reverse: () => ({
-            toArray: () => Promise.resolve(transactions),
-          }),
+// Mock next/link — render as plain <a>
+vi.mock('next/link', () => ({
+  default: ({ href, children, className }: { href: string; children: React.ReactNode; className?: string }) => (
+    <a href={href} className={className}>{children}</a>
+  ),
+}))
+
+// Mutable array for db mock — tests mutate this before render
+const _txStore: { value: Transaction[] } = { value: [] }
+
+vi.mock('@/lib/db', () => ({
+  db: {
+    transactions: {
+      orderBy: () => ({
+        reverse: () => ({
+          toArray: () => Promise.resolve(_txStore.value),
         }),
-        delete: vi.fn(),
-        add: vi.fn(),
-        _store: transactions,
-      },
+      }),
+      delete: vi.fn(),
     },
-  }
-})
+  },
+}))
 
 // Helper to create a Transaction
 function makeTransaction(overrides: Partial<Transaction> & { id: string }): Transaction {
-  const now = new Date('2026-03-13T10:00:00')
+  const now = new Date()
   return {
     id: overrides.id,
     amount: overrides.amount ?? 10000,
@@ -43,157 +47,147 @@ function makeTransaction(overrides: Partial<Transaction> & { id: string }): Tran
   }
 }
 
-// Lazy import after mocks are set up
-async function importPage() {
-  const mod = await import('@/app/transactions/page')
-  return mod.default
-}
+// Import page at module level after mocks are registered
+import TransactionsPage from '@/app/transactions/page'
 
 describe('TransactionsPage', () => {
   beforeEach(() => {
-    // Reset store to empty state
+    // Reset store to empty state before each test
     useTransactionStore.setState({ transactions: [], isLoading: false })
+    _txStore.value = []
     vi.clearAllMocks()
   })
 
-  afterEach(() => {
-    vi.resetModules()
-  })
-
   it('renders empty state with CTA when no transactions exist', async () => {
-    const TransactionsPage = await importPage()
+    _txStore.value = []
     render(<TransactionsPage />)
 
-    // Wait for loading to complete (useEffect fires)
     await waitFor(() => {
       expect(screen.getByText('No transactions yet')).toBeInTheDocument()
     })
 
-    // CTA link to /add
     const ctaLink = screen.getByRole('link', { name: /log your first one/i })
     expect(ctaLink).toBeInTheDocument()
     expect(ctaLink).toHaveAttribute('href', '/add')
   })
 
   it('groups transactions by date with sticky headers', async () => {
-    // Pre-populate store with two transactions on different dates
+    const today = new Date()
+    const yesterday = new Date(today.getTime() - 86400000)
+
     const tx1 = makeTransaction({
       id: 'tx1',
       amount: 15000,
       category: 'food',
-      date: new Date('2026-03-13T10:00:00'),
-      createdAt: new Date('2026-03-13T10:00:00'),
+      date: today,
+      createdAt: today,
     })
     const tx2 = makeTransaction({
       id: 'tx2',
       amount: 5000,
       category: 'transport',
-      date: new Date('2026-03-12T09:00:00'),
-      createdAt: new Date('2026-03-12T09:00:00'),
+      date: yesterday,
+      createdAt: yesterday,
     })
-    useTransactionStore.setState({ transactions: [tx1, tx2], isLoading: false })
 
-    const TransactionsPage = await importPage()
+    _txStore.value = [tx1, tx2]
     render(<TransactionsPage />)
 
     await waitFor(() => {
-      // Should have "Today" header (2026-03-13 is today in tests)
-      // and "Yesterday" header (2026-03-12)
-      const headers = screen.getAllByText(/Today|Yesterday|Mar/i)
-      expect(headers.length).toBeGreaterThanOrEqual(1)
+      expect(screen.getByText('Today')).toBeInTheDocument()
     })
+    expect(screen.getByText('Yesterday')).toBeInTheDocument()
   })
 
   it('shows daily total in each date group header', async () => {
+    const today = new Date()
     const tx1 = makeTransaction({
       id: 'tx1',
       amount: 15000,
       category: 'food',
-      date: new Date('2026-03-13T10:00:00'),
-      createdAt: new Date('2026-03-13T10:00:00'),
+      date: today,
+      createdAt: today,
     })
     const tx2 = makeTransaction({
       id: 'tx2',
       amount: 5000,
       category: 'food',
-      date: new Date('2026-03-13T11:00:00'),
-      createdAt: new Date('2026-03-13T11:00:00'),
+      date: today,
+      createdAt: today,
     })
-    useTransactionStore.setState({ transactions: [tx1, tx2], isLoading: false })
 
-    const TransactionsPage = await importPage()
+    _txStore.value = [tx1, tx2]
     render(<TransactionsPage />)
 
     await waitFor(() => {
-      // Daily total for today: 20000 KRW
-      // formatCurrency(20000, 'KRW') = '₩20,000'
+      // Daily total: 20000 KRW => ₩20,000
       expect(screen.getByText('₩20,000')).toBeInTheDocument()
     })
   })
 
   it('category chip filter shows only transactions matching that category', async () => {
+    const today = new Date()
     const tx1 = makeTransaction({
       id: 'tx1',
       amount: 15000,
       category: 'food',
-      date: new Date('2026-03-13T10:00:00'),
-      createdAt: new Date('2026-03-13T10:00:00'),
+      date: today,
+      createdAt: today,
     })
     const tx2 = makeTransaction({
       id: 'tx2',
       amount: 5000,
       category: 'transport',
-      date: new Date('2026-03-13T11:00:00'),
-      createdAt: new Date('2026-03-13T11:00:00'),
+      date: today,
+      createdAt: today,
     })
-    useTransactionStore.setState({ transactions: [tx1, tx2], isLoading: false })
 
-    const TransactionsPage = await importPage()
+    _txStore.value = [tx1, tx2]
     render(<TransactionsPage />)
 
+    // Wait for data to load
     await waitFor(() => {
-      expect(screen.getByText('Food')).toBeInTheDocument()
-      expect(screen.getByText('Transport')).toBeInTheDocument()
+      expect(screen.getByText('₩15,000')).toBeInTheDocument()
     })
+    expect(screen.getByText('₩5,000')).toBeInTheDocument()
 
-    // Both categories visible initially (All selected)
-    expect(screen.getByText('Food')).toBeInTheDocument()
-
-    // Click Transport chip to filter
+    // Find Transport chip (in category filter row) and click it
+    // Chip text includes emoji, e.g. "🚌Transport"
     const transportChip = screen.getAllByRole('button').find((btn) =>
       btn.textContent?.includes('Transport')
     )
     expect(transportChip).toBeDefined()
     fireEvent.click(transportChip!)
 
-    // After filtering: Food transaction should not appear in main list
-    // Transport amount (₩5,000) should appear
-    await waitFor(() => {
-      expect(screen.getByText('₩5,000')).toBeInTheDocument()
-    })
+    // Only transport transaction visible (₩5,000 appears in row and daily total header)
+    const transportAmounts = screen.getAllByText('₩5,000')
+    expect(transportAmounts.length).toBeGreaterThan(0)
+    // Food amount (₩15,000) should no longer appear
+    expect(screen.queryByText('₩15,000')).not.toBeInTheDocument()
   })
 
   it('swiping a transaction row reveals delete button', async () => {
+    const today = new Date()
     const tx1 = makeTransaction({
       id: 'tx1',
       amount: 15000,
       category: 'food',
-      date: new Date('2026-03-13T10:00:00'),
-      createdAt: new Date('2026-03-13T10:00:00'),
+      date: today,
+      createdAt: today,
     })
-    useTransactionStore.setState({ transactions: [tx1], isLoading: false })
 
-    const TransactionsPage = await importPage()
+    _txStore.value = [tx1]
     const { container } = render(<TransactionsPage />)
 
     await waitFor(() => {
-      expect(screen.getByText('₩15,000')).toBeInTheDocument()
+      // Multiple elements may show ₩15,000 (row + header daily total)
+      const matches = screen.getAllByText('₩15,000')
+      expect(matches.length).toBeGreaterThan(0)
     })
 
-    // Find the swipe container (the outer div of SwipeToDelete)
-    // Simulate swipe left > 60px on the transaction row
-    const swipeContainer = container.querySelector('[onTouchEnd]') ??
-      container.querySelector('[class*="overflow-hidden"]')
+    // Find the SwipeToDelete outer container (has overflow-hidden)
+    const swipeContainer = container.querySelector('.overflow-hidden')
+    expect(swipeContainer).not.toBeNull()
 
     if (swipeContainer) {
       fireEvent.touchStart(swipeContainer, {
@@ -203,7 +197,7 @@ describe('TransactionsPage', () => {
         changedTouches: [{ clientX: 100, clientY: 300 }],
       })
 
-      // Delete button should be present in DOM (opacity change controlled by CSS)
+      // Delete button is in DOM; after swipe it becomes visible
       await waitFor(() => {
         const deleteBtn = screen.getByRole('button', { name: /delete/i })
         expect(deleteBtn).toBeInTheDocument()

@@ -30,7 +30,11 @@
   },
   "history": {
     "title": "History",
-    "empty": "No transactions yet"
+    "empty": "No transactions yet",
+    "logFirst": "Log your first one",
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "all": "All"
   },
   "analytics": {
     "title": "Analytics"
