@@ -5,8 +5,10 @@ import { useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { ArrowLeft, ChevronDown, ChevronUp } from 'lucide-react'
 import { db } from '@/lib/db'
+import { getPeriodStartDate } from '@/lib/budget'
 import { useTransactionStore } from '@/stores/transactionStore'
 import { useSettingsStore } from '@/stores/settingsStore'
+import { useBudgetStore } from '@/stores/budgetStore'
 import { CategoryChips } from '@/components/transactions/CategoryChips'
 import type { Category, Transaction } from '@/types'
 
@@ -27,6 +29,9 @@ export default function AddTransactionPage() {
   const [showDetails, setShowDetails] = useState(false)
   const [memo, setMemo] = useState('')
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
+
+  // Budget config — for period-aware transaction filtering (DASH-07)
+  const config = useBudgetStore((s) => s.config)
 
   // Currency — read after hydration (skipHydration: true on settingsStore)
   const [hydrated, setHydrated] = useState(false)
@@ -65,8 +70,13 @@ export default function AddTransactionPage() {
       date: selectedDate ?? new Date(),
       createdAt: new Date(),
     }
+    const periodStart = config
+      ? getPeriodStartDate(new Date(), config.monthStartDay)
+      : new Date(0) // defensive: if no config, include all (epoch = include everything)
     await db.transactions.add(tx)
-    useTransactionStore.getState().addTransaction(tx)
+    if (tx.date >= periodStart) {
+      useTransactionStore.getState().addTransaction(tx)
+    }
     useTransactionStore.getState().setLastUsedCategory(selectedCategory)
     router.push('/')
   }

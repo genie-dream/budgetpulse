@@ -140,4 +140,34 @@ describe('transactionStore.addTransaction', () => {
     expect(transactions[0].id).toBe('store-tx-2')
     expect(transactions[1].id).toBe('store-tx-1')
   })
+
+  /**
+   * DASH-07 architectural guarantee: the transactionStore itself is unfiltered —
+   * it accepts any transaction regardless of date. The period filter lives at the
+   * call site in add/page.tsx handleSave:
+   *   if (tx.date >= periodStart) { useTransactionStore.getState().addTransaction(tx) }
+   *
+   * This test confirms the store is neutral (adds backdated transactions when called
+   * directly), so the filtering behaviour can be verified at the page level.
+   */
+  it('store is neutral — accepts backdated transactions when called directly (filter is at call site in add/page.tsx)', () => {
+    useTransactionStore.setState({ transactions: [] })
+
+    const backdatedTx: Transaction = {
+      id: 'backdated-tx-1',
+      amount: 5000,
+      category: 'food',
+      // 30 days in the past — clearly before any period start
+      date: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
+      createdAt: new Date(),
+    }
+
+    // The store itself does NOT filter — it always adds
+    useTransactionStore.getState().addTransaction(backdatedTx)
+
+    const { transactions } = useTransactionStore.getState()
+    // Store includes it because filtering is the caller's responsibility
+    expect(transactions).toHaveLength(1)
+    expect(transactions[0].id).toBe('backdated-tx-1')
+  })
 })
