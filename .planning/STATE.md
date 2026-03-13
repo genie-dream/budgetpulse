@@ -2,9 +2,9 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-current_phase: 05
-current_plan: Not started
-status: unknown
+current_phase: 06
+current_plan: 01
+status: in_progress
 stopped_at: Completed 06-01-PLAN.md
 last_updated: "2026-03-13T16:19:59.981Z"
 progress:
@@ -207,6 +207,13 @@ Phase 1 [████] | Phase 2 [████] | Phase 3 [████] | Phase
 - webworker added to tsconfig lib array for ServiceWorkerGlobalScope type in sw.ts; declare const self override resolves dom/webworker self conflict
 - @serwist/next/typings added to tsconfig types for __SW_MANIFEST global injection typing
 - public/sw.js removed from git tracking via git rm --cached — previously committed Phase 1 stub must be untracked before gitignore takes effect
+
+### Decisions from Plan 06-01
+
+- Pretendard v1.3.9 GitHub release ships only as zip archives — no standalone woff2; extracted web/variable/woff2/PretendardVariable.woff2 from Pretendard-1.3.9.zip (2MB variable font)
+- next/font/local src path is relative to the calling file (src/app/layout.tsx), so ../../public/fonts/PretendardVariable.woff2 resolves correctly to project root
+- vi.mock('next-intl') uses lookup-map style (not key => key passthrough) so existing English text assertions in TransactionsPage.test.tsx pass unchanged
+- All three 'History' occurrences replaced with t('title'): loading state h1, empty state h1, populated state h1
 
 ### Decisions from Plan 06-02
 
