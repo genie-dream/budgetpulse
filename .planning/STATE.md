@@ -5,13 +5,13 @@ milestone_name: milestone
 current_phase: 05
 current_plan: Not started
 status: unknown
-stopped_at: Completed 05-05-PLAN.md
-last_updated: "2026-03-13T15:45:42.359Z"
+stopped_at: Completed 06-01-PLAN.md
+last_updated: "2026-03-13T16:19:59.981Z"
 progress:
-  total_phases: 5
-  completed_phases: 5
-  total_plans: 21
-  completed_plans: 21
+  total_phases: 6
+  completed_phases: 6
+  total_plans: 23
+  completed_plans: 23
   percent: 100
 ---
 
@@ -208,6 +208,12 @@ Phase 1 [████] | Phase 2 [████] | Phase 3 [████] | Phase
 - @serwist/next/typings added to tsconfig types for __SW_MANIFEST global injection typing
 - public/sw.js removed from git tracking via git rm --cached — previously committed Phase 1 stub must be untracked before gitignore takes effect
 
+### Decisions from Plan 06-02
+
+- DASH-07 period filter lives at the call site in add/page.tsx handleSave (not in transactionStore) — store is neutral and unfiltered; filter is caller's responsibility
+- Defensive fallback: new Date(0) epoch when budget config is null in add/page.tsx — includes all transactions until budget is configured
+- BudgetEditForm changed from default export to named export — aligns with plan 05-03 spec for import consistency
+
 ### Critical Implementation Notes
 
 - `monthStartDay` allows payday-based months (e.g. 25th to 24th). Non-trivial edge case requiring dedicated tests.
@@ -232,8 +238,8 @@ None.
 
 ## Session Continuity
 
-**Last session:** 2026-03-14T00:10:00Z
-**Stopped at:** Completed 05-05-PLAN.md
+**Last session:** 2026-03-13T16:19:59.979Z
+**Stopped at:** Completed 06-01-PLAN.md
 **Next action:** BudgetPulse v1 complete — deploy to Vercel
 
 ---

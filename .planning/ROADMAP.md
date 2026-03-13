@@ -15,7 +15,7 @@
 - [x] **Phase 3: Transaction Logging** - Fast mobile-friendly transaction logging with history browsing and filtering (completed 2026-03-13)
 - [x] **Phase 4: Dashboard** - Real-time Survival Budget display, spending pace status, and over-budget states (completed 2026-03-13)
 - [x] **Phase 5: Analytics, Settings & PWA Polish** - Spending charts, past-month browsing, data backup/restore, offline support, and performance (completed 2026-03-13)
-- [ ] **Phase 6: Tech Debt Fix** - Pretendard font, i18n strings, backdated transaction filter, and export naming alignment
+- [x] **Phase 6: Tech Debt Fix** - Pretendard font, i18n strings, backdated transaction filter, and export naming alignment (completed 2026-03-13)
 
 ---
 
@@ -124,7 +124,7 @@ Plans:
 **Depends on:** Phase 5
 **Requirements:** PWA-03, TRAN-05, TRAN-06, DASH-07
 **Gap Closure:** Closes tech debt from v1.0 audit (audit status: tech_debt → resolved)
-**Plans:** 2 plans
+**Plans:** 2/2 plans complete
 
 Plans:
 - [ ] 06-01-PLAN.md — Pretendard font (next/font/local) + i18n fix in transactions/page.tsx (PWA-03, TRAN-05, TRAN-06)
@@ -141,7 +141,7 @@ Plans:
 | 3. Transaction Logging | 4/4 | Complete   | 2026-03-13 |
 | 4. Dashboard | 4/4 | Complete   | 2026-03-13 |
 | 5. Analytics, Settings & PWA Polish | 5/5 | Complete   | 2026-03-13 |
-| 6. Tech Debt Fix | 0/2 | Pending    | - |
+| 6. Tech Debt Fix | 2/2 | Complete   | 2026-03-13 |
 
 ---
 
