@@ -108,7 +108,14 @@ Plans:
   3. User can update income, fixed expenses, or savings goal from Settings and the dashboard recalculates immediately
   4. User can export all app data as a JSON file and re-import it on the same or different device with validation
   5. Dashboard and transaction logging work fully with no network connection (airplane mode)
-**Plans**: TBD
+**Plans**: 5 plans
+
+Plans:
+- [ ] 05-01-PLAN.md — TDD: analyticsHelpers pure functions (aggregateByCategory, aggregateByDay, getPeriodEndDate) + test scaffolds
+- [ ] 05-02-PLAN.md — Analytics page: DonutChart, DailyBarChart, MonthSummary components + AnalyticsPage wiring with month navigation
+- [ ] 05-03-PLAN.md — Settings page: BudgetEditForm (edit budget config) + DataManagement (JSON export/import)
+- [ ] 05-04-PLAN.md — PWA offline: @serwist/next integration, app/sw.ts, build config (--webpack)
+- [ ] 05-05-PLAN.md — Human verification: analytics, settings, export/import, offline (airplane mode), service worker
 
 ---
 
@@ -120,7 +127,7 @@ Plans:
 | 2. Budget Engine + Onboarding | 4/4 | Complete   | 2026-03-09 |
 | 3. Transaction Logging | 4/4 | Complete   | 2026-03-13 |
 | 4. Dashboard | 4/4 | Complete   | 2026-03-13 |
-| 5. Analytics, Settings & PWA Polish | 0/? | Not started | - |
+| 5. Analytics, Settings & PWA Polish | 0/5 | Not started | - |
 
 ---
 
@@ -168,3 +175,4 @@ Plans:
 *Phase 2 plans created: 2026-03-10*
 *Phase 3 plans created: 2026-03-13*
 *Phase 4 plans created: 2026-03-13*
+*Phase 5 plans created: 2026-03-13*
