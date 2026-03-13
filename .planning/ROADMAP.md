@@ -69,7 +69,13 @@ Plans:
   3. A user can delete a transaction by swiping it in the history list
   4. Transaction history is grouped by date and shows entries in reverse-chronological order
   5. Filtering by category shows only transactions matching that category
-**Plans**: TBD
+**Plans**: 4 plans
+
+Plans:
+- [ ] 03-01-PLAN.md — TDD: helper utilities (groupByDate, smartDateLabel), test scaffolds, transactionStore lastUsedCategory extension
+- [ ] 03-02-PLAN.md — Add Transaction page (/add) with auto-focus, category chips, save flow, i18n keys
+- [ ] 03-03-PLAN.md — Transaction History page (/transactions) with date groups, filter chips, swipe-to-delete, empty state
+- [ ] 03-04-PLAN.md — Human verification of complete 3-tap flow, swipe-to-delete, and category filter
 
 ### Phase 4: Dashboard
 
@@ -106,7 +112,7 @@ Plans:
 |-------|----------------|--------|-----------|
 | 1. Foundation | 4/4 | Complete   | 2026-03-09 |
 | 2. Budget Engine + Onboarding | 4/4 | Complete   | 2026-03-09 |
-| 3. Transaction Logging | 0/? | Not started | - |
+| 3. Transaction Logging | 0/4 | Not started | - |
 | 4. Dashboard | 0/? | Not started | - |
 | 5. Analytics, Settings & PWA Polish | 0/? | Not started | - |
 
@@ -154,3 +160,4 @@ Plans:
 *Roadmap created: 2026-03-09*
 *Phase 1 plans created: 2026-03-09*
 *Phase 2 plans created: 2026-03-10*
+*Phase 3 plans created: 2026-03-13*
