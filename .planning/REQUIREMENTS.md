@@ -20,12 +20,12 @@
 
 ### Transactions
 
-- [ ] **TRAN-01**: User can log a transaction with amount and category (required), memo and date (optional)
-- [ ] **TRAN-02**: Amount input uses mobile numeric keypad (inputmode="numeric" pattern="[0-9]*")
-- [ ] **TRAN-03**: Transaction logging completes in 3 taps or fewer
-- [ ] **TRAN-04**: User can delete a transaction via swipe gesture
-- [ ] **TRAN-05**: User can view transaction history grouped by date
-- [ ] **TRAN-06**: User can filter transaction history by category
+- [x] **TRAN-01**: User can log a transaction with amount and category (required), memo and date (optional)
+- [x] **TRAN-02**: Amount input uses mobile numeric keypad (inputmode="numeric" pattern="[0-9]*")
+- [x] **TRAN-03**: Transaction logging completes in 3 taps or fewer
+- [x] **TRAN-04**: User can delete a transaction via swipe gesture
+- [x] **TRAN-05**: User can view transaction history grouped by date
+- [x] **TRAN-06**: User can filter transaction history by category
 
 ### Dashboard
 
@@ -97,12 +97,12 @@
 | BUDG-05 | Phase 2 | Complete |
 | BUDG-06 | Phase 2 | Complete |
 | ONBD-01 | Phase 2 | Complete |
-| TRAN-01 | Phase 3 | Pending |
-| TRAN-02 | Phase 3 | Pending |
-| TRAN-03 | Phase 3 | Pending |
-| TRAN-04 | Phase 3 | Pending |
-| TRAN-05 | Phase 3 | Pending |
-| TRAN-06 | Phase 3 | Pending |
+| TRAN-01 | Phase 3 | Complete |
+| TRAN-02 | Phase 3 | Complete |
+| TRAN-03 | Phase 3 | Complete |
+| TRAN-04 | Phase 3 | Complete |
+| TRAN-05 | Phase 3 | Complete |
+| TRAN-06 | Phase 3 | Complete |
 | DASH-01 | Phase 4 | Pending |
 | DASH-02 | Phase 4 | Pending |
 | DASH-03 | Phase 4 | Pending |

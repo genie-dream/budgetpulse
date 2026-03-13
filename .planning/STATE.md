@@ -5,13 +5,13 @@ milestone_name: milestone
 current_phase: 3
 current_plan: Not started
 status: unknown
-stopped_at: Phase 3 context gathered
-last_updated: "2026-03-09T16:31:34.465Z"
+stopped_at: Completed 03-01-PLAN.md
+last_updated: "2026-03-13T12:07:35.480Z"
 progress:
   total_phases: 5
   completed_phases: 2
-  total_plans: 8
-  completed_plans: 8
+  total_plans: 12
+  completed_plans: 9
   percent: 100
 ---
 
@@ -33,13 +33,13 @@ progress:
 ## Current Position
 
 **Current Phase:** 3
-**Current Plan:** Not started
-**Phase Status:** Phase 2 Complete (4/4 plans)
-**Overall Status:** Phase 2 complete — Budget Engine, Store/DB, Onboarding UI, and Root Redirect Guard all done and human-verified
+**Current Plan:** 02 (Wave 2 — AddPage and TransactionsPage)
+**Phase Status:** Phase 3 In Progress (1/4 plans done)
+**Overall Status:** Phase 3 started — test scaffolds, pure helpers, and store extension complete
 
 ```
-Progress: [██████████] 100% complete (8/8 Phase 2 plans done)
-Phase 1 [█████] | Phase 2 [████] | Phase 3 [.....] | Phase 4 [.....] | Phase 5 [.....]
+Progress: [████████░░] 75% complete (9/12 plans done)
+Phase 1 [█████] | Phase 2 [████] | Phase 3 [1....] | Phase 4 [.....] | Phase 5 [.....]
 ```
 
 ---
@@ -50,7 +50,7 @@ Phase 1 [█████] | Phase 2 [████] | Phase 3 [.....] | Phase 4 [
 |-------|------|--------|
 | 1. Foundation | App shell, PWA scaffold, IndexedDB schema, routing | Complete (4/4) |
 | 2. Budget Engine + Onboarding | Budget setup, Survival Budget calculation, onboarding flow | Complete (4/4) |
-| 3. Transaction Logging | Fast mobile transaction logging, history, filtering | Not started |
+| 3. Transaction Logging | Fast mobile transaction logging, history, filtering | In Progress (1/4) |
 | 4. Dashboard | Real-time Survival Budget display, pace tracking | Not started |
 | 5. Analytics, Settings & PWA Polish | Charts, data backup/restore, offline support | Not started |
 
@@ -121,6 +121,12 @@ Phase 1 [█████] | Phase 2 [████] | Phase 3 [.....] | Phase 4 [
 - router.replace('/onboarding') not router.push() — prevents back button cycling user back into completed onboarding
 - Human verification approved via automated Playwright browser testing covering all scenarios (first-run redirect, full 3-step wizard, returning user no-redirect, symmetric /onboarding guard)
 
+### Decisions from Plan 03-01
+
+- BudgetPulseDB constructor updated to accept optional name param (default 'BudgetPulseDB') — enables per-test DB isolation without singleton state leakage between tests
+- groupByDate uses local date keys (getFullYear/getMonth/getDate) not toISOString() to prevent UTC midnight drift on mobile (critical for UTC+9 users)
+- lastUsedCategory defaults to 'food' (first CATEGORIES entry), in-memory only (no persist middleware per CONTEXT.md)
+
 ### Critical Implementation Notes
 
 - `monthStartDay` allows payday-based months (e.g. 25th to 24th). Non-trivial edge case requiring dedicated tests.
@@ -145,9 +151,9 @@ None.
 
 ## Session Continuity
 
-**Last session:** 2026-03-09T16:31:34.464Z
-**Stopped at:** Phase 3 context gathered
-**Next action:** Plan Phase 3 — Transaction Logging
+**Last session:** 2026-03-13T12:07:35.479Z
+**Stopped at:** Completed 03-01-PLAN.md
+**Next action:** Execute Phase 3 Wave 2 plans (03-02 AddPage, 03-03 TransactionsPage) in parallel
 
 ---
 
