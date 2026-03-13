@@ -53,7 +53,7 @@
 ### PWA
 
 - [x] **PWA-01**: App installs on iOS and Android home screen
-- [ ] **PWA-02**: Core functionality (dashboard, transaction logging, history) works fully offline
+- [x] **PWA-02**: Core functionality (dashboard, transaction logging, history) works fully offline
 - [x] **PWA-03**: App loads in under 2 seconds on a typical mobile connection
 
 ## v2 Requirements
@@ -118,7 +118,7 @@
 | SETT-02 | Phase 5 | Complete |
 | SETT-03 | Phase 5 | Complete |
 | PWA-01 | Phase 1 | Complete |
-| PWA-02 | Phase 5 | Pending |
+| PWA-02 | Phase 5 | Complete |
 | PWA-03 | Phase 1 | Complete |
 
 **Coverage:**
