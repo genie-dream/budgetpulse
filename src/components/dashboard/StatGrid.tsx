@@ -1,17 +1,17 @@
 'use client'
 // src/components/dashboard/StatGrid.tsx
-// Stub created in Plan 04-02 to unblock test infrastructure.
-// Full implementation will be provided in Plan 04-03.
+// 2×2 stat card grid: daily survival, weekly survival, total spent, remaining days.
+// Purely presentational — receives all pre-computed values as props.
 
 import { useTranslations } from 'next-intl'
 import { formatCurrency } from '@/lib/budget'
 import type { CurrencyCode } from '@/types'
 
 interface StatGridProps {
-  dailySurvival: number
-  weeklySurvival: number
-  totalSpent: number
-  remainingDays: number
+  dailySurvival: number // pre-computed, already clamped to >= 0 by caller
+  weeklySurvival: number // dailySurvival * 7, already clamped to >= 0 by caller
+  totalSpent: number // sum of current-period transaction amounts
+  remainingDays: number // from getRemainingDaysInPeriod
   currency: CurrencyCode
 }
 
@@ -25,30 +25,37 @@ export function StatGrid({
   const t = useTranslations('home')
 
   return (
-    <div className="grid grid-cols-2 gap-4 p-4">
-      <div className="flex flex-col">
-        <span className="text-sm text-slate-400">{t('dailySurvival')}</span>
-        <span className="text-lg font-semibold text-slate-100">
+    <div className="grid grid-cols-2 gap-3">
+      {/* Top-left: Daily Survival */}
+      <div className="flex flex-col gap-1 rounded-2xl bg-slate-800 p-4">
+        <p className="text-xs text-slate-400">{t('dailySurvival')}</p>
+        <p className="text-xl font-semibold text-slate-100">
           {formatCurrency(dailySurvival, currency)}
-        </span>
+        </p>
       </div>
-      <div className="flex flex-col">
-        <span className="text-sm text-slate-400">{t('weeklySurvival')}</span>
-        <span className="text-lg font-semibold text-slate-100">
+
+      {/* Top-right: Weekly Survival */}
+      <div className="flex flex-col gap-1 rounded-2xl bg-slate-800 p-4">
+        <p className="text-xs text-slate-400">{t('weeklySurvival')}</p>
+        <p className="text-xl font-semibold text-slate-100">
           {formatCurrency(weeklySurvival, currency)}
-        </span>
+        </p>
       </div>
-      <div className="flex flex-col">
-        <span className="text-sm text-slate-400">{t('remainingDays')}</span>
-        <span className="text-lg font-semibold text-slate-100">
-          {remainingDays} {t('days')}
-        </span>
-      </div>
-      <div className="flex flex-col">
-        <span className="text-sm text-slate-400">{t('totalSpent')}</span>
-        <span className="text-lg font-semibold text-slate-100">
+
+      {/* Bottom-left: Total Spent */}
+      <div className="flex flex-col gap-1 rounded-2xl bg-slate-800 p-4">
+        <p className="text-xs text-slate-400">{t('totalSpent')}</p>
+        <p className="text-xl font-semibold text-slate-100">
           {formatCurrency(totalSpent, currency)}
-        </span>
+        </p>
+      </div>
+
+      {/* Bottom-right: Remaining Days */}
+      <div className="flex flex-col gap-1 rounded-2xl bg-slate-800 p-4">
+        <p className="text-xs text-slate-400">{t('remainingDays')}</p>
+        <p className="text-xl font-semibold text-slate-100">
+          {remainingDays} {t('days')}
+        </p>
       </div>
     </div>
   )
