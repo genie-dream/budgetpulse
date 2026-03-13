@@ -11,9 +11,11 @@ import { CATEGORIES } from '@/lib/constants'
 import { CategoryChips } from '@/components/transactions/CategoryChips'
 import { DateGroupHeader } from '@/components/transactions/DateGroupHeader'
 import { TransactionRow } from '@/components/transactions/TransactionRow'
+import { useTranslations } from 'next-intl'
 import type { Category } from '@/types'
 
 export default function TransactionsPage() {
+  const t = useTranslations('history')
   const transactions = useTransactionStore((s) => s.transactions)
   const isLoading = useTransactionStore((s) => s.isLoading)
   const [selectedCategory, setSelectedCategory] = useState<Category | 'all'>('all')
@@ -66,7 +68,7 @@ export default function TransactionsPage() {
     return (
       <div className="flex flex-col min-h-screen bg-slate-900 text-slate-100 pb-safe">
         <div className="px-4 py-4">
-          <h1 className="text-xl font-semibold text-slate-100">History</h1>
+          <h1 className="text-xl font-semibold text-slate-100">{t('title')}</h1>
         </div>
         <div className="flex-1 flex items-center justify-center">
           <p className="text-slate-400 text-sm">Loading...</p>
@@ -80,16 +82,16 @@ export default function TransactionsPage() {
     return (
       <div className="flex flex-col min-h-screen bg-slate-900 text-slate-100 pb-safe">
         <div className="px-4 py-4">
-          <h1 className="text-xl font-semibold text-slate-100">History</h1>
+          <h1 className="text-xl font-semibold text-slate-100">{t('title')}</h1>
         </div>
         <div className="flex-1 flex flex-col items-center justify-center gap-4 px-6">
           <Receipt size={48} className="text-slate-600" />
-          <h2 className="text-lg font-semibold text-slate-300">No transactions yet</h2>
+          <h2 className="text-lg font-semibold text-slate-300">{t('empty')}</h2>
           <Link
             href="/add"
             className="px-6 py-3 rounded-2xl bg-blue-500 text-white text-sm font-semibold min-h-[44px] flex items-center"
           >
-            Log your first one
+            {t('logFirst')}
           </Link>
         </div>
       </div>
@@ -100,7 +102,7 @@ export default function TransactionsPage() {
     <div className="flex flex-col min-h-screen bg-slate-900 text-slate-100 pb-safe">
       {/* Header */}
       <div className="px-4 py-4">
-        <h1 className="text-xl font-semibold text-slate-100">History</h1>
+        <h1 className="text-xl font-semibold text-slate-100">{t('title')}</h1>
       </div>
 
       {/* Category filter chips */}

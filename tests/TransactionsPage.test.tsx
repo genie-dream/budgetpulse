@@ -1,6 +1,18 @@
 // tests/TransactionsPage.test.tsx
 // RTL tests for Transaction History page (TRAN-04, TRAN-05, TRAN-06)
 import { describe, it, expect, vi, beforeEach } from 'vitest'
+
+// Mock next-intl with lookup-map so existing assertions on English text keep passing
+vi.mock('next-intl', () => ({
+  useTranslations: (_ns: string) => (key: string) => {
+    const map: Record<string, string> = {
+      title: 'History',
+      empty: 'No transactions yet',
+      logFirst: 'Log your first one',
+    }
+    return map[key] ?? key
+  },
+}))
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import { useTransactionStore } from '@/stores/transactionStore'
 import type { Transaction } from '@/types'
