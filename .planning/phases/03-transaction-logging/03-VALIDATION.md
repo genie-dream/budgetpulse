@@ -42,10 +42,10 @@ created: 2026-03-13
 | 3-01-02 | 01 | 0 | TRAN-01 | unit | `npm test -- --run tests/transactions.test.ts` | ❌ W0 | ⬜ pending |
 | 3-01-03 | 01 | 0 | TRAN-02 | unit (RTL) | `npm test -- --run tests/AddPage.test.tsx` | ❌ W0 | ⬜ pending |
 | 3-01-04 | 01 | 0 | TRAN-03 | unit (RTL) | `npm test -- --run tests/AddPage.test.tsx` | ❌ W0 | ⬜ pending |
-| 3-02-01 | 02 | 0 | TRAN-04 | unit (RTL) | `npm test -- --run tests/TransactionsPage.test.tsx` | ❌ W0 | ⬜ pending |
-| 3-02-02 | 02 | 0 | TRAN-05 | unit (RTL) | `npm test -- --run tests/TransactionsPage.test.tsx` | ❌ W0 | ⬜ pending |
-| 3-02-03 | 02 | 0 | TRAN-05 | unit | `npm test -- --run tests/transactions.test.ts` | ❌ W0 | ⬜ pending |
-| 3-02-04 | 02 | 0 | TRAN-06 | unit (RTL) | `npm test -- --run tests/TransactionsPage.test.tsx` | ❌ W0 | ⬜ pending |
+| 3-03-01 | 03 | 0 | TRAN-04 | unit (RTL) | `npm test -- --run tests/TransactionsPage.test.tsx` | ❌ W0 | ⬜ pending |
+| 3-03-02 | 03 | 0 | TRAN-05 | unit (RTL) | `npm test -- --run tests/TransactionsPage.test.tsx` | ❌ W0 | ⬜ pending |
+| 3-03-03 | 03 | 0 | TRAN-05 | unit | `npm test -- --run tests/transactions.test.ts` | ❌ W0 | ⬜ pending |
+| 3-03-04 | 03 | 0 | TRAN-06 | unit (RTL) | `npm test -- --run tests/TransactionsPage.test.tsx` | ❌ W0 | ⬜ pending |
 
 *Status: ⬜ pending · ✅ green · ❌ red · ⚠️ flaky*
 

@@ -8,7 +8,7 @@
 
 Phase 3 builds on a fully established infrastructure: Dexie v4 with a transactions table and compound index already provisioned, a complete transactionStore with all CRUD actions wired, SwipeToDelete component fully implemented, and both `/add` and `/transactions` pages as empty placeholders awaiting replacement. All architectural patterns (skipHydration, Dexie-as-source-of-truth, next-intl for strings, Tailwind v4 dark theme) are already proven in Phase 2.
 
-The two new pages to build are: (1) the Add Transaction form at `/add` with auto-focused amount field, horizontal category chip row, collapsible details, and save-then-navigate flow; and (2) the Transaction History page at `/transactions` with date-grouped sticky headers, per-day totals, a horizontal category filter chip row using the `[date+category]` compound index, and swipe-to-delete on each row. A small Zustand slice for `lastUsedCategory` persistence needs to be added following existing store patterns.
+The two new pages to build are: (1) the Add Transaction form at `/add` with auto-focused amount field, horizontal category chip row, collapsible details, and save-then-navigate flow; and (2) the Transaction History page at `/transactions` with date-grouped sticky headers, per-day totals, a horizontal category filter chip row filtered in-memory from the already-loaded `transactions` array, and swipe-to-delete on each row. A small Zustand slice for `lastUsedCategory` persistence needs to be added following existing store patterns.
 
 The core implementation risk is the 3-tap UX contract (TRAN-03): the amount field must auto-focus immediately when the page mounts to avoid requiring an extra tap. On iOS Safari, `autoFocus` on an input does not reliably open the software keyboard unless the focus is triggered from a user gesture; however, since the user navigates to `/add` by tapping the FAB, the page-load focus should be considered gesture-triggered and will open the keyboard. This is a well-known iOS quirk to verify during testing.
 
@@ -42,7 +42,7 @@ The core implementation risk is the 3-tap UX contract (TRAN-03): the amount fiel
 - Each transaction row shows: category emoji icon + category label, amount (large/prominent), memo if present, time-of-day
 - Date group headers: sticky section header with smart labels ('Today', 'Yesterday', then 'Mar 8' format) + daily total on the right side
 - Category filter: horizontal scrollable chips at top of History page — 'All' chip plus one chip per category the user has actually used
-- Filtering triggered instantly on chip tap; uses Dexie's `[date+category]` compound index
+- Filtering triggered instantly on chip tap; uses in-memory filter on the already-loaded `transactions` array (LOCKED — no Dexie re-fetch on chip tap per CONTEXT.md)
 - Empty state: illustration + "No transactions yet" + "Log your first one" CTA button that links to `/add`
 
 ### Claude's Discretion
@@ -67,7 +67,7 @@ None — discussion stayed within phase scope.
 | TRAN-03 | Transaction logging completes in 3 taps or fewer | FAB tap (1) → auto-focus opens keyboard → type amount (no tap) → category chip (2) → Save (3); auto-focus is the critical enabler |
 | TRAN-04 | User can delete a transaction via swipe gesture | `SwipeToDelete` component fully implemented at `src/components/ui/SwipeToDelete.tsx` — wrap each history row |
 | TRAN-05 | User can view transaction history grouped by date | Load all transactions from Dexie, sort descending by `date`, group by ISO date string, render sticky date headers |
-| TRAN-06 | User can filter transaction history by category | `[date+category]` compound index on `db.transactions`; category filter chip row triggers Dexie query |
+| TRAN-06 | User can filter transaction history by category | In-memory filter on `transactionStore.transactions` array — chip tap does NOT trigger a Dexie re-fetch (LOCKED per CONTEXT.md) |
 </phase_requirements>
 
 ---
@@ -97,7 +97,7 @@ None — discussion stayed within phase scope.
 |------------|-----------|----------|
 | `inputmode="numeric"` | Custom numeric keypad | Custom keypad violates TRAN-02 decision — locked |
 | Full-screen page for Add | Modal / bottom sheet | Decided as full-screen page in CONTEXT.md — locked |
-| Dexie compound index for filtering | Client-side JS filter | Dexie index is faster, already indexed — use it |
+| In-memory filter on category chip tap | Dexie re-fetch on chip tap | In-memory filter is the locked decision (CONTEXT.md). Dexie compound index is reserved for Phase 5 analytics aggregation, not Phase 3 UI filtering. |
 
 **Installation:** No new dependencies required. All packages already installed.
 
@@ -150,18 +150,20 @@ useTransactionStore.getState().addTransaction(tx)
 router.push('/')
 ```
 
-### Pattern 3: Dexie Filtered Query via Compound Index
-**What:** Use the `[date+category]` index for category-filtered queries, falling back to full `orderBy('date').reverse()` for 'All'.
-**When to use:** Category filter chip tap on History page.
+### Pattern 3: In-Memory Category Filter (LOCKED — Phase 3 approach)
+**What:** Filter the already-loaded `transactionStore.transactions` array in JS on chip tap. No Dexie re-fetch on filter change.
+**When to use:** Category filter chip tap on History page (TRAN-06).
 ```typescript
-// Source: Dexie v4 compound index pattern; index defined in db.ts line 13
-const txns = selectedCategory === 'all'
-  ? await db.transactions.orderBy('date').reverse().toArray()
-  : await db.transactions.where('category').equals(selectedCategory).sortBy('date')
-      .then(arr => arr.reverse())
+// Source: CONTEXT.md locked decision — in-memory filter avoids Dexie re-fetch flicker on mobile
+const transactions = useTransactionStore((s) => s.transactions)
+const [selectedCategory, setSelectedCategory] = useState<Category | 'all'>('all')
+
+const filtered = selectedCategory === 'all'
+  ? transactions
+  : transactions.filter((tx) => tx.category === selectedCategory)
 ```
 
-Note: The compound `[date+category]` index enables queries filtered by both date range AND category simultaneously, which matters for analytics (Phase 5) but for Phase 3 simple category filtering, `where('category').equals()` on its own index is sufficient and simpler.
+Note: The compound `[date+category]` index in `db.ts` enables efficient queries filtered by both date range AND category simultaneously — this is the fast path for Phase 5 analytics aggregation. For Phase 3 simple category UI filtering, in-memory filtering on the cached array is the locked approach (no flicker, no round-trip).
 
 ### Pattern 4: Date Grouping for History
 **What:** Group a flat sorted array into `Map<string, Transaction[]>` keyed by ISO date.
@@ -211,7 +213,7 @@ Decision: Add `lastUsedCategory` to the existing `transactionStore` to avoid a n
 
 ### Anti-Patterns to Avoid
 - **Calling `router.push('/')` before `db.transactions.add()` resolves:** Dexie writes are async — always `await` before navigating. Otherwise dashboard (Phase 4) reads stale data.
-- **Filtering transactions in JS after fetching all:** Use Dexie index queries — more efficient and the infrastructure is already built.
+- **Re-fetching from Dexie on every category chip tap:** Load transactions once on mount into `transactionStore.transactions`; filter the in-memory array for category changes. Re-fetching causes visible lag on mobile and contradicts the locked CONTEXT.md decision. The Dexie compound index is reserved for Phase 5 analytics.
 - **Using `new Date()` for date group keys with timezone offset:** `date.toISOString()` returns UTC. Use local-time date string for grouping to avoid off-by-one errors near midnight.
 - **Forgetting `'use client'` directive on Add/History pages:** Both use hooks (useState, useEffect, useRouter) — they must be Client Components.
 - **Reading settingsStore.currency before hydration:** settingsStore uses `skipHydration: true`. Call `useSettingsStore.getState().manuallyApplyInitialState()` in `onFinishHydration` callback, or read after the hydration flag is set (established Phase 2 pattern).
@@ -307,19 +309,18 @@ interface CategoryChipsProps {
 // Unselected: bg-slate-700 text-slate-300
 ```
 
-### Dexie Category Filter (History page)
+### In-Memory Category Filter (History page — LOCKED approach)
 ```typescript
-// Source: CONTEXT.md — "uses Dexie's [date+category] compound index"
-// For Phase 3 simplicity, use per-category index (sufficient)
-const loadTransactions = async (filter: Category | 'all') => {
-  const txns = filter === 'all'
-    ? await db.transactions.orderBy('date').reverse().toArray()
-    : await db.transactions
-        .where('category').equals(filter)
-        .toArray()
-        .then(arr => arr.sort((a, b) => b.date.getTime() - a.date.getTime()))
-  useTransactionStore.getState().setTransactions(txns)
-}
+// Source: CONTEXT.md locked decision — filter in-memory, no Dexie re-fetch on chip tap
+// Note: Dexie [date+category] compound index is Phase 5 analytics pattern, not Phase 3 UI filtering
+const transactions = useTransactionStore((s) => s.transactions)
+const [selectedCategory, setSelectedCategory] = useState<Category | 'all'>('all')
+
+const filtered = selectedCategory === 'all'
+  ? transactions
+  : transactions.filter((tx) => tx.category === selectedCategory)
+
+const grouped = groupByDate(filtered)
 ```
 
 ### Auto-Focus Amount Input
@@ -425,7 +426,7 @@ useEffect(() => {
 | TRAN-05 | History page groups transactions by date, shows sticky headers | unit (RTL) | `npm test -- --run tests/TransactionsPage.test.tsx` | Wave 0 |
 | TRAN-05 | `groupByDate()` helper groups correctly | unit | `npm test -- --run tests/transactions.test.ts` | Wave 0 |
 | TRAN-05 | `smartDateLabel()` returns 'Today', 'Yesterday', formatted date | unit | `npm test -- --run tests/transactions.test.ts` | Wave 0 |
-| TRAN-06 | Category filter chip tap triggers Dexie query and re-renders filtered list | unit (RTL) | `npm test -- --run tests/TransactionsPage.test.tsx` | Wave 0 |
+| TRAN-06 | Category filter chip tap updates list from in-memory store (no Dexie re-fetch) | unit (RTL) | `npm test -- --run tests/TransactionsPage.test.tsx` | Wave 0 |
 
 ### Sampling Rate
 - **Per task commit:** `npm test -- --run`
