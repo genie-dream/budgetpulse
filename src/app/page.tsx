@@ -95,8 +95,17 @@ export default function DashboardPage() {
   const weeklySurvival = dailySurvival * 7
   const paceRatio = calcPaceRatio(totalSpent, variableBudget, config.monthStartDay)
 
+  const today = new Date()
+  const dateLabel = today.toLocaleDateString('en-US', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  })
+
   return (
     <div className="flex flex-col gap-4 p-4">
+      <p className="text-sm text-slate-400">{dateLabel}</p>
       <HeroCard
         remainingBudget={remainingBudget}
         variableBudget={variableBudget}
