@@ -15,6 +15,7 @@
 - [x] **Phase 3: Transaction Logging** - Fast mobile-friendly transaction logging with history browsing and filtering (completed 2026-03-13)
 - [x] **Phase 4: Dashboard** - Real-time Survival Budget display, spending pace status, and over-budget states (completed 2026-03-13)
 - [x] **Phase 5: Analytics, Settings & PWA Polish** - Spending charts, past-month browsing, data backup/restore, offline support, and performance (completed 2026-03-13)
+- [ ] **Phase 6: Tech Debt Fix** - Pretendard font, i18n strings, backdated transaction filter, and export naming alignment
 
 ---
 
@@ -117,6 +118,19 @@ Plans:
 - [ ] 05-04-PLAN.md — PWA offline: @serwist/next integration, app/sw.ts, build config (--webpack)
 - [ ] 05-05-PLAN.md — Human verification: analytics, settings, export/import, offline (airplane mode), service worker
 
+### Phase 6: Tech Debt Fix
+
+**Goal:** Close all actionable tech debt from the v1.0 audit — font loading, i18n completeness, data correctness edge case, and export naming consistency
+**Depends on:** Phase 5
+**Requirements:** PWA-03 (Pretendard → load speed improvement), TRAN-05/TRAN-06 (i18n completeness), DASH-07 (period filter correctness)
+**Gap Closure:** Closes tech debt from v1.0 audit (audit status: tech_debt → resolved)
+
+Tasks:
+1. **Install Pretendard font** — Download and configure Pretendard in `src/app/layout.tsx`, replacing the TODO/Inter fallback (affects PWA-03 Korean UX)
+2. **Fix i18n in transactions/page.tsx** — Replace hardcoded `'History'` and `'No transactions yet'` strings with `useTranslations('history')` calls using existing keys in `messages/en.json` and `ko.json`
+3. **Fix DASH-07 backdated filter** — Update `transactionStore.addTransaction` to filter transactions by the current period when building in-memory state, preventing backdated transactions from inflating `totalSpent` within the same session
+4. **Fix BudgetEditForm export** — Change `export default` to `export const BudgetEditForm` (named export) to align with plan 05-03 spec; update import site in Settings page
+
 ---
 
 ## Progress Table
@@ -128,6 +142,7 @@ Plans:
 | 3. Transaction Logging | 4/4 | Complete   | 2026-03-13 |
 | 4. Dashboard | 4/4 | Complete   | 2026-03-13 |
 | 5. Analytics, Settings & PWA Polish | 5/5 | Complete   | 2026-03-13 |
+| 6. Tech Debt Fix | 0/4 | Pending    | - |
 
 ---
 
