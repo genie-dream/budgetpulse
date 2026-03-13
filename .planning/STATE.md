@@ -3,16 +3,16 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 current_phase: 3
-current_plan: Not started
-status: unknown
-stopped_at: Completed 03-01-PLAN.md
-last_updated: "2026-03-13T12:07:35.480Z"
+current_plan: 03 (Wave 2 — TransactionsPage)
+status: in_progress
+stopped_at: Completed 03-02-PLAN.md
+last_updated: "2026-03-13T21:13:00Z"
 progress:
   total_phases: 5
   completed_phases: 2
   total_plans: 12
-  completed_plans: 9
-  percent: 100
+  completed_plans: 10
+  percent: 83
 ---
 
 # STATE: BudgetPulse
@@ -33,13 +33,13 @@ progress:
 ## Current Position
 
 **Current Phase:** 3
-**Current Plan:** 02 (Wave 2 — AddPage and TransactionsPage)
-**Phase Status:** Phase 3 In Progress (1/4 plans done)
-**Overall Status:** Phase 3 started — test scaffolds, pure helpers, and store extension complete
+**Current Plan:** 03 (Wave 2 — TransactionsPage)
+**Phase Status:** Phase 3 In Progress (2/4 plans done)
+**Overall Status:** Add Transaction page, CategoryChips component, and RTL tests complete
 
 ```
-Progress: [████████░░] 75% complete (9/12 plans done)
-Phase 1 [█████] | Phase 2 [████] | Phase 3 [1....] | Phase 4 [.....] | Phase 5 [.....]
+Progress: [█████████░] 83% complete (10/12 plans done)
+Phase 1 [█████] | Phase 2 [████] | Phase 3 [2....] | Phase 4 [.....] | Phase 5 [.....]
 ```
 
 ---
@@ -50,7 +50,7 @@ Phase 1 [█████] | Phase 2 [████] | Phase 3 [1....] | Phase 4 [
 |-------|------|--------|
 | 1. Foundation | App shell, PWA scaffold, IndexedDB schema, routing | Complete (4/4) |
 | 2. Budget Engine + Onboarding | Budget setup, Survival Budget calculation, onboarding flow | Complete (4/4) |
-| 3. Transaction Logging | Fast mobile transaction logging, history, filtering | In Progress (1/4) |
+| 3. Transaction Logging | Fast mobile transaction logging, history, filtering | In Progress (2/4) |
 | 4. Dashboard | Real-time Survival Budget display, pace tracking | Not started |
 | 5. Analytics, Settings & PWA Polish | Charts, data backup/restore, offline support | Not started |
 
@@ -127,6 +127,13 @@ Phase 1 [█████] | Phase 2 [████] | Phase 3 [1....] | Phase 4 [
 - groupByDate uses local date keys (getFullYear/getMonth/getDate) not toISOString() to prevent UTC midnight drift on mobile (critical for UTC+9 users)
 - lastUsedCategory defaults to 'food' (first CATEGORIES entry), in-memory only (no persist middleware per CONTEXT.md)
 
+### Decisions from Plan 03-02
+
+- CategoryChips is pure presentational (labelEn only) for v1 — locale-aware labels deferred to later plan
+- amount input uses type=text inputMode=numeric (not type=number) to avoid browser spinner arrows on mobile
+- settingsStore hydration guard uses persist.onFinishHydration + persist.hasHydrated() — consistent with onboarding page pattern
+- tCommon('back') used for back button aria-label — avoids redundant key in 'add' namespace
+
 ### Critical Implementation Notes
 
 - `monthStartDay` allows payday-based months (e.g. 25th to 24th). Non-trivial edge case requiring dedicated tests.
@@ -151,10 +158,10 @@ None.
 
 ## Session Continuity
 
-**Last session:** 2026-03-13T12:07:35.479Z
-**Stopped at:** Completed 03-01-PLAN.md
-**Next action:** Execute Phase 3 Wave 2 plans (03-02 AddPage, 03-03 TransactionsPage) in parallel
+**Last session:** 2026-03-13T21:13:00Z
+**Stopped at:** Completed 03-02-PLAN.md
+**Next action:** Execute Phase 3 Plan 03-03 (TransactionsPage with history and filtering)
 
 ---
 
-*State last updated: 2026-03-10T16:12:49Z*
+*State last updated: 2026-03-13T21:13:00Z*
