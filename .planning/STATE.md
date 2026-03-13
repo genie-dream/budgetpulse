@@ -3,16 +3,16 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 current_phase: 4
-current_plan: "2 (complete — next: 04-03)"
+current_plan: "3 (complete — next: 04-04)"
 status: in-progress
-stopped_at: Completed 04-02-PLAN.md
-last_updated: "2026-03-13T14:18:00Z"
+stopped_at: Completed 04-03-PLAN.md
+last_updated: "2026-03-13T14:21:00Z"
 progress:
   total_phases: 5
   completed_phases: 3
   total_plans: 16
-  completed_plans: 14
-  percent: 88
+  completed_plans: 15
+  percent: 94
 ---
 
 # STATE: BudgetPulse
@@ -33,13 +33,13 @@ progress:
 ## Current Position
 
 **Current Phase:** 4
-**Current Plan:** 2 (complete — next: 04-03)
-**Phase Status:** Phase 4 In Progress (2/5 plans done)
-**Overall Status:** HeroCard component implemented with RTL tests. StatGrid stub in place. 94 tests passing. Ready for Plan 04-03 (StatGrid full implementation).
+**Current Plan:** 3 (complete — next: 04-04)
+**Phase Status:** Phase 4 In Progress (3/5 plans done)
+**Overall Status:** StatGrid component fully implemented (2x2 grid, correct card order). 90 tests passing. Ready for Plan 04-04 (dashboard page integration).
 
 ```
-Progress: [█████████░] 88% complete (14/16 plans done)
-Phase 1 [████] | Phase 2 [████] | Phase 3 [████] | Phase 4 [██...] | Phase 5 [.....]
+Progress: [█████████░] 94% complete (15/16 plans done)
+Phase 1 [████] | Phase 2 [████] | Phase 3 [████] | Phase 4 [███..] | Phase 5 [.....]
 ```
 
 ---
@@ -51,7 +51,7 @@ Phase 1 [████] | Phase 2 [████] | Phase 3 [████] | Phase
 | 1. Foundation | App shell, PWA scaffold, IndexedDB schema, routing | Complete (4/4) |
 | 2. Budget Engine + Onboarding | Budget setup, Survival Budget calculation, onboarding flow | Complete (4/4) |
 | 3. Transaction Logging | Fast mobile transaction logging, history, filtering | Complete (4/4) |
-| 4. Dashboard | Real-time Survival Budget display, pace tracking | In progress (1/5) |
+| 4. Dashboard | Real-time Survival Budget display, pace tracking | In progress (3/5) |
 | 5. Analytics, Settings & PWA Polish | Charts, data backup/restore, offline support | Not started |
 
 ---
@@ -160,6 +160,12 @@ Phase 1 [████] | Phase 2 [████] | Phase 3 [████] | Phase
 - RTL tests in dashboard.test.tsx (.tsx extension required for JSX); dashboard.test.ts retained for pure function tests only
 - data-testid added to hero-amount and progress-bar-fill elements for unambiguous RTL querySelector queries
 
+### Decisions from Plan 04-03
+
+- StatGrid is purely presentational — dailySurvival and weeklySurvival received pre-clamped (>=0) from caller, no internal clamping needed
+- Card order: Daily Survival (top-left), Weekly Survival (top-right), Total Spent (bottom-left), Remaining Days (bottom-right) — matches plan spec
+- dashboard.test.ts Wave 0 stub removed; dashboard.test.tsx was the authoritative test file from Plan 04-02
+
 ### Critical Implementation Notes
 
 - `monthStartDay` allows payday-based months (e.g. 25th to 24th). Non-trivial edge case requiring dedicated tests.
@@ -184,10 +190,10 @@ None.
 
 ## Session Continuity
 
-**Last session:** 2026-03-13T14:18:00Z
-**Stopped at:** Completed 04-02-PLAN.md
-**Next action:** Execute Plan 04-03 — StatGrid full implementation
+**Last session:** 2026-03-13T14:21:00Z
+**Stopped at:** Completed 04-03-PLAN.md
+**Next action:** Execute Plan 04-04 — dashboard page integration
 
 ---
 
-*State last updated: 2026-03-13T14:18:00Z*
+*State last updated: 2026-03-13T14:21:00Z*

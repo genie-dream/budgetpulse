@@ -29,12 +29,12 @@
 
 ### Dashboard
 
-- [ ] **DASH-01**: Dashboard shows variable budget, total spent, remaining budget with progress bar
+- [x] **DASH-01**: Dashboard shows variable budget, total spent, remaining budget with progress bar
 - [x] **DASH-02**: Dashboard shows daily Survival Budget (remaining budget ÷ remaining days)
 - [x] **DASH-03**: Dashboard shows weekly Survival Budget (daily × 7)
 - [x] **DASH-04**: Dashboard shows remaining days in the current budget month
 - [x] **DASH-05**: Dashboard shows Spending Pace status: safe (paceRatio < 0.9), caution (0.9–1.1), danger (≥ 1.1)
-- [ ] **DASH-06**: Dashboard shows over-budget state when remainingBudget < 0
+- [x] **DASH-06**: Dashboard shows over-budget state when remainingBudget < 0
 - [ ] **DASH-07**: Dashboard updates in < 100ms after a transaction is saved
 
 ### Analytics
@@ -103,12 +103,12 @@
 | TRAN-04 | Phase 3 | Complete |
 | TRAN-05 | Phase 3 | Complete |
 | TRAN-06 | Phase 3 | Complete |
-| DASH-01 | Phase 4 | Pending |
+| DASH-01 | Phase 4 | Complete |
 | DASH-02 | Phase 4 | Complete |
 | DASH-03 | Phase 4 | Complete |
 | DASH-04 | Phase 4 | Complete |
 | DASH-05 | Phase 4 | Complete |
-| DASH-06 | Phase 4 | Pending |
+| DASH-06 | Phase 4 | Complete |
 | DASH-07 | Phase 4 | Pending |
 | ANLX-01 | Phase 5 | Pending |
 | ANLX-02 | Phase 5 | Pending |
