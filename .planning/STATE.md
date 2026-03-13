@@ -12,7 +12,7 @@ progress:
   completed_phases: 4
   total_plans: 21
   completed_plans: 19
-  percent: 86
+  percent: 90
 ---
 
 # STATE: BudgetPulse
@@ -181,6 +181,11 @@ Phase 1 [████] | Phase 2 [████] | Phase 3 [████] | Phase
 - getPeriodEndDate general case: end day = monthStartDay-1 in the following month, clamped via Math.min to handle short months (Feb with monthStartDay=31)
 - tests/settings.test.ts and tests/sw.test.ts use it.todo stubs so Wave 2/3/4 plans have automated verify targets from day one (established pattern from Plan 01-01)
 - CategoryTotal.name = labelEn (same as id, English only for v1) — locale-aware labels deferred per CategoryChips decision
+
+### Decisions from Plan 05-02
+
+- Recharts v3 ContentType uses closure factory pattern (makeTooltip/makeBarTooltip returning TooltipContentProps with default generics, not <number, string>) — extending TooltipContentProps<number, string> caused ContentType<ValueType, NameType> assignability errors
+- monthOffset state (0=current, negative=past) drives referenceDate via setMonth(getMonth()+offset), then getPeriodStartDate applies payday-based period boundary — Next button disabled when monthOffset >= 0
 
 ### Decisions from Plan 05-03
 
