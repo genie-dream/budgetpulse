@@ -24,7 +24,9 @@
     "amount": "Amount",
     "category": "Category",
     "memo": "Memo (optional)",
-    "date": "Date"
+    "date": "Date",
+    "addDetails": "Add details",
+    "save": "Save"
   },
   "history": {
     "title": "History",

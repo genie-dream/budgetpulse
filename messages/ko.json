@@ -24,7 +24,9 @@
     "amount": "금액",
     "category": "카테고리",
     "memo": "메모 (선택)",
-    "date": "날짜"
+    "date": "날짜",
+    "addDetails": "상세 추가",
+    "save": "저장"
   },
   "history": {
     "title": "지출 내역",
