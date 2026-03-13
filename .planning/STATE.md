@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 current_phase: 4
-current_plan: Not started
-status: unknown
-stopped_at: Phase 4 context gathered
-last_updated: "2026-03-13T13:49:16.359Z"
+current_plan: 1
+status: in-progress
+stopped_at: Completed 04-01-PLAN.md
+last_updated: "2026-03-13T14:11:15.665Z"
 progress:
   total_phases: 5
   completed_phases: 3
-  total_plans: 12
-  completed_plans: 12
+  total_plans: 16
+  completed_plans: 13
   percent: 100
 ---
 
@@ -33,13 +33,13 @@ progress:
 ## Current Position
 
 **Current Phase:** 4
-**Current Plan:** Not started
-**Phase Status:** Phase 3 Complete (4/4 plans done) — Phase 4 not started
-**Overall Status:** Transaction logging subsystem fully implemented and human-verified. All 6 TRAN requirements satisfied.
+**Current Plan:** 1 (complete — next: 04-02)
+**Phase Status:** Phase 4 In Progress (1/5 plans done)
+**Overall Status:** Dashboard calculation foundation complete. calcPaceRatio, getPaceStatus, getPeriodStartDate exported from budget.ts, i18n keys added, test scaffold in place.
 
 ```
-Progress: [██████████] 100% complete (12/12 plans done — Phase 3 complete)
-Phase 1 [████] | Phase 2 [████] | Phase 3 [████] | Phase 4 [.....] | Phase 5 [.....]
+Progress: [████████░░] 81% complete (13/16 plans done)
+Phase 1 [████] | Phase 2 [████] | Phase 3 [████] | Phase 4 [█....] | Phase 5 [.....]
 ```
 
 ---
@@ -51,7 +51,7 @@ Phase 1 [████] | Phase 2 [████] | Phase 3 [████] | Phase
 | 1. Foundation | App shell, PWA scaffold, IndexedDB schema, routing | Complete (4/4) |
 | 2. Budget Engine + Onboarding | Budget setup, Survival Budget calculation, onboarding flow | Complete (4/4) |
 | 3. Transaction Logging | Fast mobile transaction logging, history, filtering | Complete (4/4) |
-| 4. Dashboard | Real-time Survival Budget display, pace tracking | Not started |
+| 4. Dashboard | Real-time Survival Budget display, pace tracking | In progress (1/5) |
 | 5. Analytics, Settings & PWA Polish | Charts, data backup/restore, offline support | Not started |
 
 ---
@@ -146,6 +146,13 @@ Phase 1 [████] | Phase 2 [████] | Phase 3 [████] | Phase
 - Test mock uses mutable _txStore.value object to allow per-test db control without vi.fn() hoisting issues in vi.mock() factory
 - Daily total in DateGroupHeader and transaction row both display same resolvedCurrency (defaults to 'KRW' before hydration)
 
+### Decisions from Plan 04-01
+
+- getPeriodStartDate uses local-date constructor (new Date(y,m,d)) — never ISO strings to prevent UTC drift for UTC+9 mobile users
+- calcPaceRatio sentinel: variableBudget<=0 with spent>0 returns 2 to reliably trigger danger status without divide-by-zero
+- DASH-07 (<100ms update) is architectural guarantee from Zustand synchronous re-render — no timing test needed
+- Wave 0 test scaffold uses it.todo for RTL component stubs so vitest exits 0 before HeroCard/StatGrid components exist
+
 ### Critical Implementation Notes
 
 - `monthStartDay` allows payday-based months (e.g. 25th to 24th). Non-trivial edge case requiring dedicated tests.
@@ -170,10 +177,10 @@ None.
 
 ## Session Continuity
 
-**Last session:** 2026-03-13T13:49:16.358Z
-**Stopped at:** Phase 4 context gathered
-**Next action:** Execute Phase 4 — Dashboard (real-time Survival Budget display, pace tracking)
+**Last session:** 2026-03-13T14:11:15.663Z
+**Stopped at:** Completed 04-01-PLAN.md
+**Next action:** Execute Plan 04-02 — HeroCard component
 
 ---
 
-*State last updated: 2026-03-13T21:29:00Z*
+*State last updated: 2026-03-13T14:12:00Z*
