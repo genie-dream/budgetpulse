@@ -3,16 +3,16 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 current_phase: 4
-current_plan: 1
+current_plan: "2 (complete — next: 04-03)"
 status: in-progress
-stopped_at: Completed 04-01-PLAN.md
-last_updated: "2026-03-13T14:11:15.665Z"
+stopped_at: Completed 04-02-PLAN.md
+last_updated: "2026-03-13T14:18:00Z"
 progress:
   total_phases: 5
   completed_phases: 3
   total_plans: 16
-  completed_plans: 13
-  percent: 100
+  completed_plans: 14
+  percent: 88
 ---
 
 # STATE: BudgetPulse
@@ -33,13 +33,13 @@ progress:
 ## Current Position
 
 **Current Phase:** 4
-**Current Plan:** 1 (complete — next: 04-02)
-**Phase Status:** Phase 4 In Progress (1/5 plans done)
-**Overall Status:** Dashboard calculation foundation complete. calcPaceRatio, getPaceStatus, getPeriodStartDate exported from budget.ts, i18n keys added, test scaffold in place.
+**Current Plan:** 2 (complete — next: 04-03)
+**Phase Status:** Phase 4 In Progress (2/5 plans done)
+**Overall Status:** HeroCard component implemented with RTL tests. StatGrid stub in place. 94 tests passing. Ready for Plan 04-03 (StatGrid full implementation).
 
 ```
-Progress: [████████░░] 81% complete (13/16 plans done)
-Phase 1 [████] | Phase 2 [████] | Phase 3 [████] | Phase 4 [█....] | Phase 5 [.....]
+Progress: [█████████░] 88% complete (14/16 plans done)
+Phase 1 [████] | Phase 2 [████] | Phase 3 [████] | Phase 4 [██...] | Phase 5 [.....]
 ```
 
 ---
@@ -153,6 +153,13 @@ Phase 1 [████] | Phase 2 [████] | Phase 3 [████] | Phase
 - DASH-07 (<100ms update) is architectural guarantee from Zustand synchronous re-render — no timing test needed
 - Wave 0 test scaffold uses it.todo for RTL component stubs so vitest exits 0 before HeroCard/StatGrid components exist
 
+### Decisions from Plan 04-02
+
+- HeroCard displays Math.abs(remainingBudget) — absolute value shown, negative state conveyed via text-red-500 and "Over budget" label (not minus sign in number)
+- StatGrid stub created as Rule 3 auto-fix — dashboard.test.tsx pre-emptively imported StatGrid blocking full test suite; full impl is Plan 04-03 scope
+- RTL tests in dashboard.test.tsx (.tsx extension required for JSX); dashboard.test.ts retained for pure function tests only
+- data-testid added to hero-amount and progress-bar-fill elements for unambiguous RTL querySelector queries
+
 ### Critical Implementation Notes
 
 - `monthStartDay` allows payday-based months (e.g. 25th to 24th). Non-trivial edge case requiring dedicated tests.
@@ -177,10 +184,10 @@ None.
 
 ## Session Continuity
 
-**Last session:** 2026-03-13T14:11:15.663Z
-**Stopped at:** Completed 04-01-PLAN.md
-**Next action:** Execute Plan 04-02 — HeroCard component
+**Last session:** 2026-03-13T14:18:00Z
+**Stopped at:** Completed 04-02-PLAN.md
+**Next action:** Execute Plan 04-03 — StatGrid full implementation
 
 ---
 
-*State last updated: 2026-03-13T14:12:00Z*
+*State last updated: 2026-03-13T14:18:00Z*
