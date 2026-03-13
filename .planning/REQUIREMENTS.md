@@ -46,7 +46,7 @@
 
 ### Settings & Data
 
-- [ ] **SETT-01**: User can update income, fixed expenses, and savings goal at any time
+- [x] **SETT-01**: User can update income, fixed expenses, and savings goal at any time
 - [x] **SETT-02**: User can export all data as a JSON file (backup)
 - [x] **SETT-03**: User can import a JSON file to restore data (with structure validation)
 
@@ -114,7 +114,7 @@
 | ANLX-02 | Phase 5 | Complete |
 | ANLX-03 | Phase 5 | Complete |
 | ANLX-04 | Phase 5 | Complete |
-| SETT-01 | Phase 5 | Pending |
+| SETT-01 | Phase 5 | Complete |
 | SETT-02 | Phase 5 | Complete |
 | SETT-03 | Phase 5 | Complete |
 | PWA-01 | Phase 1 | Complete |
