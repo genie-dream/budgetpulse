@@ -3,14 +3,19 @@
 //
 // HeroCard tests: implemented in Plan 04-02
 // StatGrid tests: implemented in Plan 04-03 (StatGrid stub present, full impl in 04-03)
+// DashboardPage integration tests: implemented in Plan 04-04
 //
 // NOTE: DASH-07 (< 100ms update) is an architectural guarantee from Zustand
 // synchronous re-render. No timing test is needed.
 
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import { calcPaceRatio, getPaceStatus } from '../src/lib/budget'
 import { StatGrid } from '../src/components/dashboard/StatGrid'
+import { useBudgetStore } from '@/stores/budgetStore'
+import { useSettingsStore } from '@/stores/settingsStore'
+import { useTransactionStore } from '@/stores/transactionStore'
+import type { BudgetConfig, Transaction } from '@/types'
 
 vi.mock('next-intl', () => ({
   useTranslations: () => (key: string) => key,
@@ -21,6 +26,56 @@ vi.mock('@/lib/budget', async (importOriginal) => {
   const actual = await importOriginal()
   return { ...actual }
 })
+
+// Mock next/navigation
+vi.mock('next/navigation', () => ({
+  useRouter: () => ({ push: vi.fn(), replace: vi.fn() }),
+  usePathname: () => '/',
+}))
+
+// Mutable store for db mock — tests set this before render
+const _dbTxStore: { value: Transaction[] } = { value: [] }
+
+vi.mock('@/lib/db', () => ({
+  db: {
+    transactions: {
+      where: () => ({
+        aboveOrEqual: () => ({
+          toArray: () => Promise.resolve(_dbTxStore.value),
+        }),
+      }),
+    },
+  },
+}))
+
+// Helper to build a minimal BudgetConfig
+function makeBudgetConfig(overrides?: Partial<BudgetConfig>): BudgetConfig {
+  return {
+    id: 'test-budget',
+    income: 1_000_000,
+    fixedExpenses: [],
+    savingsGoal: 0,
+    monthStartDay: 1,
+    createdAt: new Date(),
+    ...overrides,
+  }
+}
+
+// Helper to build a Transaction
+function makeTransaction(overrides: Partial<Transaction> & { id: string }): Transaction {
+  const now = new Date()
+  return {
+    id: overrides.id,
+    amount: overrides.amount ?? 10_000,
+    category: overrides.category ?? 'food',
+    memo: overrides.memo,
+    date: overrides.date ?? now,
+    createdAt: overrides.createdAt ?? now,
+  }
+}
+
+// Import page under test after mocks are registered
+import DashboardPage from '@/app/page'
 
 describe('calcPaceRatio + getPaceStatus integration', () => {
   it('returns safe status when pace is well below threshold', () => {
@@ -239,7 +294,65 @@ describe('StatGrid', () => {
 })
 
 describe('DashboardPage integration', () => {
-  // DASH-01–DASH-06: Full dashboard render
-  it.todo('renders full dashboard after both stores hydrate')
-  it.todo('shows skeleton/null before hydration completes')
+  const config = makeBudgetConfig()
+
+  beforeEach(() => {
+    // Reset all stores before each test
+    useBudgetStore.setState({ config: null, isOnboarded: false })
+    useSettingsStore.setState({ currency: 'KRW', language: 'en', theme: 'dark' })
+    useTransactionStore.setState({ transactions: [], isLoading: false })
+    _dbTxStore.value = []
+    vi.clearAllMocks()
+  })
+
+  // DASH-01–DASH-06: renders null before hydration
+  it('renders null (no content) before stores hydrate', () => {
+    // Both stores not hydrated — page returns null
+    const { container } = render(<DashboardPage />)
+    // No hero amount or stat grid labels visible
+    expect(container.firstChild).toBeNull()
+  })
+
+  // DASH-01: Full dashboard render after hydration
+  it('renders HeroCard and StatGrid when both stores hydrated and isOnboarded=true', async () => {
+    // Simulate hydration by setting store state directly
+    useBudgetStore.setState({ config, isOnboarded: true })
+    useSettingsStore.setState({ currency: 'KRW', language: 'en', theme: 'dark' })
+
+    // Simulate persisted hydration flags
+    ;(useBudgetStore.persist as { hasHydrated: () => boolean }).hasHydrated = () => true
+    ;(useSettingsStore.persist as { hasHydrated: () => boolean }).hasHydrated = () => true
+
+    render(<DashboardPage />)
+
+    await waitFor(() => {
+      // remainingThisMonth label from HeroCard (t key returned by mock)
+      expect(screen.getByText('remainingThisMonth')).toBeInTheDocument()
+    })
+
+    // StatGrid labels should also be present
+    expect(screen.getByText('dailySurvival')).toBeInTheDocument()
+    expect(screen.getByText('weeklySurvival')).toBeInTheDocument()
+    expect(screen.getByText('totalSpent')).toBeInTheDocument()
+    expect(screen.getByText('remainingDays')).toBeInTheDocument()
+  })
+
+  // DASH-01: remaining budget displayed as dominant value
+  it('derives and displays remaining budget from variableBudget - totalSpent', async () => {
+    useBudgetStore.setState({ config, isOnboarded: true })
+    useSettingsStore.setState({ currency: 'KRW', language: 'en', theme: 'dark' })
+    ;(useBudgetStore.persist as { hasHydrated: () => boolean }).hasHydrated = () => true
+    ;(useSettingsStore.persist as { hasHydrated: () => boolean }).hasHydrated = () => true
+
+    // Set transactions so totalSpent = 200,000
+    const tx = makeTransaction({ id: 'tx1', amount: 200_000 })
+    _dbTxStore.value = [tx]
+
+    render(<DashboardPage />)
+
+    await waitFor(() => {
+      // variableBudget = 1,000,000, totalSpent = 200,000 => remaining = 800,000 => ₩800,000
+      expect(screen.getByText('₩800,000')).toBeInTheDocument()
+    })
+  })
 })
