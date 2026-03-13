@@ -23,7 +23,7 @@ vi.mock('next-intl', () => ({
 
 // budget mock: use real implementations (no mocking of formatCurrency or getPaceStatus)
 vi.mock('@/lib/budget', async (importOriginal) => {
-  const actual = await importOriginal()
+  const actual = await importOriginal<typeof import('../src/lib/budget')>()
   return { ...actual }
 })
 
@@ -50,13 +50,16 @@ vi.mock('@/lib/db', () => ({
 
 // Helper to build a minimal BudgetConfig
 function makeBudgetConfig(overrides?: Partial<BudgetConfig>): BudgetConfig {
+  const now = new Date()
   return {
     id: 'test-budget',
     income: 1_000_000,
     fixedExpenses: [],
     savingsGoal: 0,
     monthStartDay: 1,
-    createdAt: new Date(),
+    currency: 'KRW',
+    createdAt: now,
+    updatedAt: now,
     ...overrides,
   }
 }
