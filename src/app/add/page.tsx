@@ -101,9 +101,10 @@ export default function AddTransactionPage() {
           inputMode="numeric"
           pattern="[0-9]*"
           placeholder="0"
+          size={1}
           value={amountValue}
           onChange={(e) => setAmountValue(e.target.value)}
-          className="flex-1 text-4xl font-bold bg-transparent outline-none placeholder-slate-600 text-slate-100"
+          className="flex-1 min-w-0 text-4xl font-bold bg-transparent outline-none placeholder-slate-600 text-slate-100"
           aria-label={t('amount')}
         />
       </div>
