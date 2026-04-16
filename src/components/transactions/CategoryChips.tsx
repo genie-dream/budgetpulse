@@ -1,4 +1,5 @@
 'use client'
+import { useEffect, useRef } from 'react'
 import type { Category } from '@/types'
 import { CATEGORIES } from '@/lib/constants'
 
@@ -15,8 +16,17 @@ export function CategoryChips({
   onSelect,
   showAll = false,
 }: CategoryChipsProps) {
+  const containerRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const el = containerRef.current?.querySelector<HTMLButtonElement>('[data-selected="true"]')
+    if (el) {
+      el.scrollIntoView({ block: 'nearest', inline: 'start' })
+    }
+  }, [selected])
+
   return (
-    <div className="flex overflow-x-auto gap-2 px-4 py-3 scrollbar-hide">
+    <div ref={containerRef} className="flex overflow-x-auto gap-2 px-4 py-3 scrollbar-hide">
       {showAll && (
         <button
           onClick={() => onSelect('all')}
@@ -25,6 +35,7 @@ export function CategoryChips({
               ? 'bg-blue-500 text-white'
               : 'bg-slate-700 text-slate-300'
           }`}
+          data-selected={selected === 'all'}
         >
           All
         </button>
@@ -33,6 +44,7 @@ export function CategoryChips({
         <button
           key={cat.id}
           onClick={() => onSelect(cat.id)}
+          data-selected={selected === cat.id}
           className={`flex-shrink-0 flex items-center gap-1.5 px-3 rounded-full text-sm font-medium min-h-[44px] ${
             selected === cat.id
               ? 'bg-blue-500 text-white'
