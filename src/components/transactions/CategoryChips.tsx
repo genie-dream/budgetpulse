@@ -19,9 +19,13 @@ export function CategoryChips({
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const el = containerRef.current?.querySelector<HTMLButtonElement>('[data-selected="true"]')
-    if (el) {
-      el.scrollIntoView({ block: 'nearest', inline: 'start' })
+    const container = containerRef.current
+    const el = container?.querySelector<HTMLButtonElement>('[data-selected="true"]')
+    if (!container || !el) return
+    const containerRect = container.getBoundingClientRect()
+    const elRect = el.getBoundingClientRect()
+    if (elRect.left < containerRect.left) {
+      container.scrollLeft -= containerRect.left - elRect.left
     }
   }, [selected])
 
