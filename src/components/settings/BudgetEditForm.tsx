@@ -1,32 +1,19 @@
 'use client'
 
 import { useState } from 'react'
-import { formatCurrency } from '@/lib/budget'
-import { CATEGORIES } from '@/lib/constants'
-import type { BudgetConfig, Category, FixedExpense } from '@/types'
-import SwipeToDelete from '@/components/ui/SwipeToDelete'
+import type { BudgetConfig, FixedExpense } from '@/types'
+import {
+  FixedExpenseForm,
+  DEFAULT_EXPENSE_FORM,
+} from './FixedExpenseForm'
+import type { ExpenseFormState } from './FixedExpenseForm'
+import { FixedExpenseList } from './FixedExpenseList'
 
 interface BudgetEditFormProps {
   config: BudgetConfig
   onSave: (updates: Partial<BudgetConfig>) => Promise<void>
 }
 
-interface ExpenseFormState {
-  name: string
-  amount: string
-  category: Category
-}
-
-const DEFAULT_EXPENSE_FORM: ExpenseFormState = {
-  name: '',
-  amount: '',
-  category: 'other',
-}
-
-/**
- * Settings form for editing income, fixed expenses, and savings goal.
- * Reuses UI patterns from onboarding step components.
- */
 export function BudgetEditForm({ config, onSave }: BudgetEditFormProps) {
   const [income, setIncome] = useState(config.income)
   const [monthStartDay, setMonthStartDay] = useState(config.monthStartDay)
@@ -35,7 +22,6 @@ export function BudgetEditForm({ config, onSave }: BudgetEditFormProps) {
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
 
-  // Fixed expenses inline form state
   const [expenseForm, setExpenseForm] = useState<ExpenseFormState>(DEFAULT_EXPENSE_FORM)
   const [editingExpenseId, setEditingExpenseId] = useState<string | null>(null)
 
@@ -62,46 +48,35 @@ export function BudgetEditForm({ config, onSave }: BudgetEditFormProps) {
     setSavingsGoal(raw === '' ? 0 : Number(raw))
   }
 
-  function handleAddExpense() {
+  function handleExpenseSubmit() {
     if (!isExpenseFormValid) return
-    const newExpense: FixedExpense = {
-      id: crypto.randomUUID(),
-      name: expenseForm.name.trim(),
-      amount: Number(expenseForm.amount),
-      category: expenseForm.category,
-    }
-    setFixedExpenses([...fixedExpenses, newExpense])
-    setExpenseForm(DEFAULT_EXPENSE_FORM)
-  }
-
-  function handleEditExpenseStart(expense: FixedExpense) {
-    setEditingExpenseId(expense.id)
-    setExpenseForm({
-      name: expense.name,
-      amount: String(expense.amount),
-      category: expense.category,
-    })
-  }
-
-  function handleEditExpenseSave() {
-    if (!isExpenseFormValid || editingExpenseId === null) return
-    setFixedExpenses(
-      fixedExpenses.map((e) =>
-        e.id === editingExpenseId
-          ? {
-              ...e,
-              name: expenseForm.name.trim(),
-              amount: Number(expenseForm.amount),
-              category: expenseForm.category,
-            }
-          : e
+    if (editingExpenseId !== null) {
+      setFixedExpenses(
+        fixedExpenses.map((e) =>
+          e.id === editingExpenseId
+            ? { ...e, name: expenseForm.name.trim(), amount: Number(expenseForm.amount), category: expenseForm.category }
+            : e
+        )
       )
-    )
-    setEditingExpenseId(null)
+      setEditingExpenseId(null)
+    } else {
+      const newExpense: FixedExpense = {
+        id: crypto.randomUUID(),
+        name: expenseForm.name.trim(),
+        amount: Number(expenseForm.amount),
+        category: expenseForm.category,
+      }
+      setFixedExpenses([...fixedExpenses, newExpense])
+    }
     setExpenseForm(DEFAULT_EXPENSE_FORM)
   }
 
-  function handleEditExpenseCancel() {
+  function handleEditStart(expense: FixedExpense) {
+    setEditingExpenseId(expense.id)
+    setExpenseForm({ name: expense.name, amount: String(expense.amount), category: expense.category })
+  }
+
+  function handleEditCancel() {
     setEditingExpenseId(null)
     setExpenseForm(DEFAULT_EXPENSE_FORM)
   }
@@ -109,74 +84,6 @@ export function BudgetEditForm({ config, onSave }: BudgetEditFormProps) {
   function handleDeleteExpense(id: string) {
     setFixedExpenses(fixedExpenses.filter((e) => e.id !== id))
   }
-
-  function getCategoryEmoji(id: Category) {
-    return CATEGORIES.find((c) => c.id === id)?.emoji ?? '💡'
-  }
-
-  // Inline form for add/edit expense
-  const ExpenseInlineForm = (
-    <div className="flex flex-col gap-2 p-3 bg-slate-800 rounded-xl border border-slate-700">
-      <input
-        type="text"
-        placeholder="Expense name"
-        className="min-h-[44px] rounded-lg bg-slate-700 border border-slate-600 px-3 text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-        value={expenseForm.name}
-        onChange={(e) => setExpenseForm((f) => ({ ...f, name: e.target.value }))}
-      />
-      <input
-        type="text"
-        inputMode="numeric"
-        pattern="[0-9]*"
-        placeholder="Amount"
-        className="min-h-[44px] rounded-lg bg-slate-700 border border-slate-600 px-3 text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-        value={expenseForm.amount}
-        onChange={(e) =>
-          setExpenseForm((f) => ({ ...f, amount: e.target.value.replace(/\D/g, '') }))
-        }
-      />
-      <select
-        className="min-h-[44px] rounded-lg bg-slate-700 border border-slate-600 px-3 text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-        value={expenseForm.category}
-        onChange={(e) =>
-          setExpenseForm((f) => ({ ...f, category: e.target.value as Category }))
-        }
-      >
-        {CATEGORIES.map((cat) => (
-          <option key={cat.id} value={cat.id}>
-            {cat.emoji} {cat.labelEn}
-          </option>
-        ))}
-      </select>
-      <div className="flex gap-2">
-        {editingExpenseId !== null ? (
-          <>
-            <button
-              onClick={handleEditExpenseSave}
-              disabled={!isExpenseFormValid}
-              className="flex-1 min-h-[44px] rounded-lg bg-blue-600 text-white text-sm font-medium disabled:opacity-50"
-            >
-              Save
-            </button>
-            <button
-              onClick={handleEditExpenseCancel}
-              className="flex-1 min-h-[44px] rounded-lg border border-slate-600 text-slate-300 text-sm"
-            >
-              Cancel
-            </button>
-          </>
-        ) : (
-          <button
-            onClick={handleAddExpense}
-            disabled={!isExpenseFormValid}
-            className="flex-1 min-h-[44px] rounded-lg bg-blue-600 text-white text-sm font-medium disabled:opacity-50"
-          >
-            Add
-          </button>
-        )}
-      </div>
-    </div>
-  )
 
   return (
     <div className="flex flex-col gap-6">
@@ -222,33 +129,21 @@ export function BudgetEditForm({ config, onSave }: BudgetEditFormProps) {
       {/* Fixed Expenses section */}
       <div className="flex flex-col gap-3">
         <span className="text-sm font-medium text-slate-300">Fixed Expenses</span>
-        {ExpenseInlineForm}
-        {fixedExpenses.length > 0 && (
-          <div className="flex flex-col gap-1">
-            {fixedExpenses.map((expense) =>
-              editingExpenseId === expense.id ? null : (
-                <SwipeToDelete
-                  key={expense.id}
-                  onDelete={() => handleDeleteExpense(expense.id)}
-                  className="rounded-xl"
-                >
-                  <button
-                    onClick={() => handleEditExpenseStart(expense)}
-                    className="w-full flex items-center justify-between min-h-[52px] px-3 bg-slate-800 text-left"
-                  >
-                    <span className="flex items-center gap-2 text-sm text-slate-200">
-                      <span>{getCategoryEmoji(expense.category)}</span>
-                      <span>{expense.name}</span>
-                    </span>
-                    <span className="text-sm text-slate-400 font-medium">
-                      {formatCurrency(expense.amount, config.currency)}
-                    </span>
-                  </button>
-                </SwipeToDelete>
-              )
-            )}
-          </div>
-        )}
+        <FixedExpenseForm
+          form={expenseForm}
+          onFormChange={setExpenseForm}
+          onSubmit={handleExpenseSubmit}
+          onCancel={handleEditCancel}
+          isEditing={editingExpenseId !== null}
+          isValid={isExpenseFormValid}
+        />
+        <FixedExpenseList
+          expenses={fixedExpenses}
+          editingId={editingExpenseId}
+          onEditStart={handleEditStart}
+          onDelete={handleDeleteExpense}
+          currency={config.currency}
+        />
       </div>
 
       {/* Savings Goal section */}

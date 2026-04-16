@@ -1,11 +1,12 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { useBudgetStore } from '@/stores/budgetStore'
 import { useSettingsStore } from '@/stores/settingsStore'
 import { useTransactionStore } from '@/stores/transactionStore'
+import { useHydrated } from '@/hooks/useHydrated'
 import { db } from '@/lib/db'
 import {
   calcVariableBudget,
@@ -13,7 +14,6 @@ import {
   calcPaceRatio,
   getRemainingDaysInPeriod,
   getPeriodStartDate,
-  formatCurrency,
 } from '@/lib/budget'
 import { HeroCard } from '@/components/dashboard/HeroCard'
 import { StatGrid } from '@/components/dashboard/StatGrid'
@@ -30,21 +30,9 @@ export default function DashboardPage() {
   const transactions = useTransactionStore((s) => s.transactions)
 
   // --- Two-store hydration guard (DASH-01, prevents flash) ---
-  const [budgetHydrated, setBudgetHydrated] = useState(false)
-  const [settingsHydrated, setSettingsHydrated] = useState(false)
+  const budgetHydrated = useHydrated(useBudgetStore)
+  const settingsHydrated = useHydrated(useSettingsStore)
   const hydrated = budgetHydrated && settingsHydrated
-
-  useEffect(() => {
-    const unsub = useBudgetStore.persist.onFinishHydration(() => setBudgetHydrated(true))
-    if (useBudgetStore.persist.hasHydrated()) setBudgetHydrated(true)
-    return unsub
-  }, [])
-
-  useEffect(() => {
-    const unsub = useSettingsStore.persist.onFinishHydration(() => setSettingsHydrated(true))
-    if (useSettingsStore.persist.hasHydrated()) setSettingsHydrated(true)
-    return unsub
-  }, [])
 
   // --- Onboarding redirect (existing behaviour preserved) ---
   useEffect(() => {

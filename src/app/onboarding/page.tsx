@@ -1,8 +1,9 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useBudgetStore } from '@/stores/budgetStore'
+import { useHydrated } from '@/hooks/useHydrated'
 import OnboardingWizard from '@/components/onboarding/OnboardingWizard'
 
 /**
@@ -12,15 +13,8 @@ import OnboardingWizard from '@/components/onboarding/OnboardingWizard'
  */
 export default function OnboardingPage() {
   const router = useRouter()
-  const [hydrated, setHydrated] = useState(false)
+  const hydrated = useHydrated(useBudgetStore)
   const isOnboarded = useBudgetStore((s) => s.isOnboarded)
-
-  useEffect(() => {
-    // Wait for Zustand persist hydration before reading isOnboarded
-    const unsub = useBudgetStore.persist.onFinishHydration(() => setHydrated(true))
-    if (useBudgetStore.persist.hasHydrated()) setHydrated(true)
-    return unsub
-  }, [])
 
   useEffect(() => {
     if (hydrated && isOnboarded) {

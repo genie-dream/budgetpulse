@@ -1,8 +1,8 @@
 'use client'
 
-import { useEffect, useState } from 'react'
 import { useTranslations } from 'next-intl'
 import { useBudgetStore } from '@/stores/budgetStore'
+import { useHydrated } from '@/hooks/useHydrated'
 import { db } from '@/lib/db'
 import type { BudgetConfig } from '@/types'
 import { BudgetEditForm } from '@/components/settings/BudgetEditForm'
@@ -15,13 +15,7 @@ import DataManagement from '@/components/settings/DataManagement'
 export default function SettingsPage() {
   const t = useTranslations()
   const config = useBudgetStore((s) => s.config)
-  const [hydrated, setHydrated] = useState(false)
-
-  useEffect(() => {
-    const unsub = useBudgetStore.persist.onFinishHydration(() => setHydrated(true))
-    if (useBudgetStore.persist.hasHydrated()) setHydrated(true)
-    return unsub
-  }, [])
+  const hydrated = useHydrated(useBudgetStore)
 
   async function handleSaveSettings(updates: Partial<BudgetConfig>) {
     if (!config) return

@@ -4,8 +4,9 @@ import { useState, useEffect, useMemo } from 'react'
 import { useTranslations } from 'next-intl'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useBudgetStore } from '@/stores/budgetStore'
+import { useHydrated } from '@/hooks/useHydrated'
 import { db } from '@/lib/db'
-import { getPeriodStartDate, calcVariableBudget, formatCurrency } from '@/lib/budget'
+import { getPeriodStartDate, calcVariableBudget } from '@/lib/budget'
 import {
   aggregateByCategory,
   aggregateByDay,
@@ -21,18 +22,11 @@ export default function AnalyticsPage() {
   const tCommon = useTranslations('common')
   const tHome = useTranslations('home')
 
-  const [hydrated, setHydrated] = useState(false)
+  const hydrated = useHydrated(useBudgetStore)
   const [monthOffset, setMonthOffset] = useState(0)
   const [transactions, setTransactions] = useState<Transaction[]>([])
 
   const config = useBudgetStore((s) => s.config)
-
-  // Hydration guard — same pattern as DashboardPage
-  useEffect(() => {
-    const unsub = useBudgetStore.persist.onFinishHydration(() => setHydrated(true))
-    if (useBudgetStore.persist.hasHydrated()) setHydrated(true)
-    return unsub
-  }, [])
 
   // Period computation based on monthOffset
   const { periodStart, periodEnd, referenceDate } = useMemo(() => {

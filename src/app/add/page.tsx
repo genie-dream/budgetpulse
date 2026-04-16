@@ -9,6 +9,7 @@ import { getPeriodStartDate } from '@/lib/budget'
 import { useTransactionStore } from '@/stores/transactionStore'
 import { useSettingsStore } from '@/stores/settingsStore'
 import { useBudgetStore } from '@/stores/budgetStore'
+import { useHydrated } from '@/hooks/useHydrated'
 import { CategoryChips } from '@/components/transactions/CategoryChips'
 import type { Category, Transaction } from '@/types'
 
@@ -34,14 +35,8 @@ export default function AddTransactionPage() {
   const config = useBudgetStore((s) => s.config)
 
   // Currency — read after hydration (skipHydration: true on settingsStore)
-  const [hydrated, setHydrated] = useState(false)
+  const hydrated = useHydrated(useSettingsStore)
   const currency = useSettingsStore((s) => s.currency)
-
-  useEffect(() => {
-    const unsub = useSettingsStore.persist.onFinishHydration(() => setHydrated(true))
-    if (useSettingsStore.persist.hasHydrated()) setHydrated(true)
-    return unsub
-  }, [])
 
   // Auto-focus amount input (iOS workaround: defer by 50ms)
   useEffect(() => {

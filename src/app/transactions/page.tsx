@@ -6,6 +6,7 @@ import { Receipt } from 'lucide-react'
 import { db } from '@/lib/db'
 import { useTransactionStore } from '@/stores/transactionStore'
 import { useSettingsStore } from '@/stores/settingsStore'
+import { useHydrated } from '@/hooks/useHydrated'
 import { groupByDate } from '@/lib/transactionHelpers'
 import { CATEGORIES } from '@/lib/constants'
 import { CategoryChips } from '@/components/transactions/CategoryChips'
@@ -22,13 +23,7 @@ export default function TransactionsPage() {
 
   // Currency from settings store (skipHydration: true — read after hydration)
   const currency = useSettingsStore((s) => s.currency)
-  const [hydrated, setHydrated] = useState(false)
-
-  useEffect(() => {
-    const unsub = useSettingsStore.persist.onFinishHydration(() => setHydrated(true))
-    if (useSettingsStore.persist.hasHydrated()) setHydrated(true)
-    return unsub
-  }, [])
+  const hydrated = useHydrated(useSettingsStore)
 
   // Load transactions from Dexie on mount
   useEffect(() => {

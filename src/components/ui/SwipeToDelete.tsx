@@ -11,12 +11,14 @@ interface SwipeToDeleteProps {
 /**
  * Reusable swipe-to-delete wrapper.
  * Swipe left more than 60px (with horizontal dominance) to reveal delete button.
- * Swipe right resets to closed state.
+ * Swipe right resets to closed state. Works on both touch and mouse.
  */
 export default function SwipeToDelete({ children, onDelete, className }: SwipeToDeleteProps) {
   const [swiped, setSwiped] = useState(false)
   const touchStartX = useRef(0)
   const touchStartY = useRef(0)
+  const mouseStartX = useRef(0)
+  const isDragging = useRef(false)
 
   function handleTouchStart(e: React.TouchEvent) {
     touchStartX.current = e.touches[0].clientX
@@ -38,6 +40,26 @@ export default function SwipeToDelete({ children, onDelete, className }: SwipeTo
     }
   }
 
+  function handleMouseDown(e: React.MouseEvent) {
+    mouseStartX.current = e.clientX
+    isDragging.current = true
+  }
+
+  function handleMouseUp(e: React.MouseEvent) {
+    if (!isDragging.current) return
+    isDragging.current = false
+    const deltaX = e.clientX - mouseStartX.current
+    if (deltaX < -60) {
+      setSwiped(true)
+    } else if (deltaX > 0) {
+      setSwiped(false)
+    }
+  }
+
+  function handleMouseLeave() {
+    isDragging.current = false
+  }
+
   function handleDelete() {
     setSwiped(false)
     onDelete()
@@ -48,6 +70,9 @@ export default function SwipeToDelete({ children, onDelete, className }: SwipeTo
       className={`relative overflow-hidden ${className ?? ''}`}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
+      onMouseLeave={handleMouseLeave}
     >
       {/* Content wrapper — slides left when swiped */}
       <div
